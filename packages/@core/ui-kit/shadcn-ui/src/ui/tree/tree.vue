@@ -269,6 +269,7 @@ defineExpose({
           :checked="isSelected"
           :disabled="disabled"
           :indeterminate="isIndeterminate"
+          class="border-[hsl(var(--secondary-foreground))]"
           @click="
             () => {
               !disabled && handleSelect();

@@ -18,7 +18,10 @@ import { useAuthStore } from '#/store';
 
 import { refreshTokenApi } from './core';
 
-const { apiURL } = useAppConfig(import.meta.env, import.meta.env.PROD);
+const { apiURL, apiVersion, clientId, clientSecret } = useAppConfig(
+  import.meta.env,
+  import.meta.env.PROD,
+);
 
 function createRequestClient(baseURL: string, options?: RequestClientOptions) {
   const client = new RequestClient({
@@ -49,9 +52,17 @@ function createRequestClient(baseURL: string, options?: RequestClientOptions) {
    */
   async function doRefreshToken() {
     const accessStore = useAccessStore();
-    const resp = await refreshTokenApi();
-    const newToken = resp.data;
+    accessStore.setAccessToken(null);
+    const resp = await refreshTokenApi({
+      grant_type: 'refresh_token',
+      client_id: clientId,
+      client_secret: clientSecret,
+      refresh_token: accessStore.refreshToken as string,
+    });
+    const newToken = resp.access_token;
+    const newRefreshToken = resp.refresh_token;
     accessStore.setAccessToken(newToken);
+    accessStore.setRefreshToken(newRefreshToken);
     return newToken;
   }
 
@@ -66,6 +77,9 @@ function createRequestClient(baseURL: string, options?: RequestClientOptions) {
 
       config.headers.Authorization = formatToken(accessStore.accessToken);
       config.headers['Accept-Language'] = preferences.app.locale;
+      config.headers['X-API-Version'] = apiVersion;
+      config.headers['X-Tenant-Id'] = accessStore.tenantId;
+
       return config;
     },
   });
@@ -96,7 +110,7 @@ function createRequestClient(baseURL: string, options?: RequestClientOptions) {
       // 这里可以根据业务进行定制,你可以拿到 error 内的信息进行定制化处理，根据不同的 code 做不同的提示，而不是直接使用 message.error 提示 msg
       // 当前mock接口返回的错误字段是 error 或者 message
       const responseData = error?.response?.data ?? {};
-      const errorMessage = responseData?.error ?? responseData?.message ?? '';
+      const errorMessage = responseData?.message ?? responseData?.error ?? '';
       // 如果没有错误信息，则会根据状态码进行提示
       message.error(errorMessage || msg);
     }),

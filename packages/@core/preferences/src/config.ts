@@ -17,7 +17,7 @@ const defaultPreferences: Preferences = {
     contentPaddingTop: 0,
     defaultAvatar:
       'https://unpkg.com/@vbenjs/static-source@0.1.7/source/avatar-v1.webp',
-    defaultHomePath: '/analytics',
+    defaultHomePath: '/home',
     dynamicTitle: true,
     enableCheckUpdates: true,
     enablePreferences: true,
@@ -63,7 +63,7 @@ const defaultPreferences: Preferences = {
   logo: {
     enable: true,
     fit: 'contain',
-    source: 'https://unpkg.com/@vbenjs/static-source@0.1.7/source/logo-v1.webp',
+    source: '/static/logo.png',
   },
   navigation: {
     accordion: true,
@@ -107,7 +107,7 @@ const defaultPreferences: Preferences = {
     wheelable: true,
   },
   theme: {
-    builtinType: 'default',
+    builtinType: 'orange',
     colorDestructive: 'hsl(348 100% 61%)',
     colorPrimary: 'hsl(212 100% 45%)',
     colorSuccess: 'hsl(144 57% 58%)',

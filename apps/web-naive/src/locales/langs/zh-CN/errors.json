@@ -1,0 +1,8 @@
+﻿{
+  "invalidDomainOrAddress": "请输入合法的域名或地址",
+  "invalidZip": "请输入合法的邮编",
+  "invalidEmail": "请输入合法的邮箱",
+  "invalidPhone": "请输入合法的电话号码",
+  "cannotBeEmpty": "不能为空",
+  "cannotBeEmptyWithName": "{name}不能为空"
+}

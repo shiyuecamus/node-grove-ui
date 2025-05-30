@@ -4,19 +4,24 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 
 import { LOGIN_PATH } from '@vben/constants';
+import { useAppConfig } from '@vben/hooks';
 import { preferences } from '@vben/preferences';
 import { resetAllStores, useAccessStore, useUserStore } from '@vben/stores';
 
 import { defineStore } from 'pinia';
 
 import { notification } from '#/adapter/naive';
-import { getAccessCodesApi, getUserInfoApi, loginApi, logoutApi } from '#/api';
+import { getUserInfoApi, loginApi, logoutApi } from '#/api';
 import { $t } from '#/locales';
 
 export const useAuthStore = defineStore('auth', () => {
   const accessStore = useAccessStore();
   const userStore = useUserStore();
   const router = useRouter();
+  const { clientId, clientSecret } = useAppConfig(
+    import.meta.env,
+    import.meta.env.PROD,
+  );
 
   const loginLoading = ref(false);
 
@@ -33,38 +38,40 @@ export const useAuthStore = defineStore('auth', () => {
     let userInfo: null | UserInfo = null;
     try {
       loginLoading.value = true;
-      const { accessToken } = await loginApi(params);
+      const { access_token, refresh_token } = await loginApi({
+        ...params,
+        client_id: clientId,
+        client_secret: clientSecret,
+        grant_type: 'password',
+      });
 
-      // 如果成功获取到 accessToken
-      if (accessToken) {
-        // 将 accessToken 存储到 accessStore 中
-        accessStore.setAccessToken(accessToken);
+      // 如果成功获取到 accessToken 和 refreshToken
+      if (access_token && refresh_token) {
+        // 将 accessToken 和 refreshToken 存储到 accessStore 中
+        accessStore.setAccessToken(access_token);
+        accessStore.setRefreshToken(refresh_token);
 
         // 获取用户信息并存储到 accessStore 中
-        const [fetchUserInfoResult, accessCodes] = await Promise.all([
-          fetchUserInfo(),
-          getAccessCodesApi(),
-        ]);
+        // eslint-disable-next-line unicorn/no-single-promise-in-promise-methods
+        const [fetchUserInfoResult] = await Promise.all([fetchUserInfo()]);
 
         userInfo = fetchUserInfoResult;
 
         userStore.setUserInfo(userInfo);
-        accessStore.setAccessCodes(accessCodes);
+        // accessStore.setAccessCodes(accessCodes);
 
         if (accessStore.loginExpired) {
           accessStore.setLoginExpired(false);
         } else {
           onSuccess
             ? await onSuccess?.()
-            : await router.push(
-                userInfo.homePath || preferences.app.defaultHomePath,
-              );
+            : await router.push(preferences.app.defaultHomePath);
         }
 
-        if (userInfo?.realName) {
+        if (userInfo?.nickname) {
           notification.success({
             content: $t('authentication.loginSuccess'),
-            description: `${$t('authentication.loginSuccessDesc')}:${userInfo?.realName}`,
+            description: `${$t('authentication.loginSuccessDesc')}:${userInfo?.nickname}`,
             duration: 3000,
           });
         }

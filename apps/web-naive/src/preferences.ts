@@ -9,5 +9,13 @@ export const overridesPreferences = defineOverridesPreferences({
   // overrides
   app: {
     name: import.meta.env.VITE_APP_TITLE,
+    enableRefreshToken: true,
+    accessMode: 'backend',
+    defaultHomePath: '/home',
+  },
+  theme: {
+    colorPrimary: 'hsl(18 89% 40%)',
+    builtinType: 'orange',
+    mode: 'dark',
   },
 });

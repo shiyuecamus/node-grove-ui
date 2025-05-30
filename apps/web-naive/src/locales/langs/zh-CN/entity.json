@@ -1,0 +1,27 @@
+{
+  "tenant": "租户",
+  "tenant_package": "租户套餐",
+  "user": "用户",
+  "role": "角色",
+  "dept": "部门",
+  "menu": "菜单",
+  "oauth2_client": "oauth2客户端",
+  "device": "设备",
+  "device_credentials": "设备凭证",
+  "manufacturer": "厂商",
+  "product": "产品",
+  "operation_record": "操作日志",
+  "dictionary": "字典",
+  "dictionary_detail": "字典详情",
+  "driver": "驱动",
+  "detail": {
+    "details": "详情",
+    "detailsWithEntityType": "{entityType} - 详情",
+    "properties": "属性",
+    "telemetry": "遥测",
+    "alarms": "告警",
+    "events": "事件",
+    "relations": "关系",
+    "audit": "审计"
+  }
+}

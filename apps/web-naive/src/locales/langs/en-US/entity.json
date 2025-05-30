@@ -1,0 +1,27 @@
+{
+  "tenant": "Tenant",
+  "tenant_package": "Tenant Package",
+  "user": "User",
+  "role": "Role",
+  "dept": "Dept",
+  "menu": "Menu",
+  "oauth2_client": "Oauth2 Client",
+  "device": "Device",
+  "device_credentials": "Device Credentials",
+  "manufacturer": "Manufacturer",
+  "product": "Product",
+  "operation_record": "Operation Record",
+  "dictionary": "Dictionary",
+  "dictionary_detail": "Dictionary Detail",
+  "driver": "Driver",
+  "detail": {
+    "details": "Details",
+    "detailsWithEntityType": "{entityType} - Details",
+    "properties": "Properties",
+    "telemetry": "Telemetry",
+    "alarms": "Alarms",
+    "events": "Events",
+    "relations": "Relations",
+    "audit": "Audit"
+  }
+}

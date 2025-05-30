@@ -10,5 +10,74 @@
     "title": "Dashboard",
     "analytics": "Analytics",
     "workspace": "Workspace"
+  },
+  "home": {
+    "title": "Home"
+  },
+  "system": {
+    "title": "System",
+    "user": {
+      "title": "User"
+    },
+    "role": {
+      "title": "Role"
+    },
+    "menu": {
+      "title": "Menu"
+    },
+    "dept": {
+      "title": "Dept"
+    },
+    "tenant": {
+      "title": "Tenant",
+      "name": "Name",
+      "status": "Status",
+      "domain": "Domain",
+      "startTime": "Start Time",
+      "endTime": "End Time"
+    },
+    "tenantPackage": {
+      "title": "Tenant Package",
+      "name": "Name"
+    },
+    "dictionary": {
+      "title": "Dictionary"
+    }
+  },
+  "thingsModel": {
+    "title": "Things Model",
+    "product": {
+      "title": "Product"
+    },
+    "manufacturer": {
+      "title": "Manufacturer"
+    },
+    "driver": {
+      "title": "Driver",
+      "size": "Size",
+      "type": "Type",
+      "version": "Version",
+      "extType": "Ext Type",
+      "extType-dll": "DLL",
+      "extType-dylib": "DYLIB",
+      "extType-so": "SO",
+      "type-builtin": "Builtin",
+      "type-custom": "Custom"
+    }
+  },
+  "entity": {
+    "title": "Entity",
+    "device": {
+      "title": "Device"
+    },
+    "asset": {
+      "title": "Asset"
+    }
+  },
+  "audit": {
+    "title": "Audit",
+    "operationRecord": {
+      "title": "Operation Record"
+    }
   }
 }

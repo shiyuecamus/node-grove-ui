@@ -1,0 +1,27 @@
+:root {
+  /* --iti-hover-color: hsl(var(--primary-foreground)); */
+
+  /* 调整 vue-tel-input 样式使其与 naive-ui 保持一致 */
+  .vue-tel-input {
+    display: flex;
+    flex-direction: row;
+    align-items: center; /* 确保内容垂直居中 */
+    width: 100%;
+    border: 1px solid hsl(var(--border));
+    border-radius: var(--radius);
+    height: 34px; /* 调整输入框的高度，使其与 naive-ui 一致 */
+    font-size: inherit; /* 设置字体大小与 Naive UI 输入框一致 */
+  }
+
+  .vue-tel-input:hover {
+    border: 1px solid hsl(var(--primary));
+    outline: none;
+  }
+
+  .vue-tel-input:focus-within {
+    box-shadow: none;
+    border: 1px solid hsl(var(--primary));
+    outline: none;
+  }
+
+}

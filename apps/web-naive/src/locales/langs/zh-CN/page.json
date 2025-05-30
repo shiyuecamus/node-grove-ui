@@ -10,5 +10,74 @@
     "title": "概览",
     "analytics": "分析页",
     "workspace": "工作台"
+  },
+  "home": {
+    "title": "首页"
+  },
+  "system": {
+    "title": "系统管理",
+    "user": {
+      "title": "用户"
+    },
+    "role": {
+      "title": "角色"
+    },
+    "menu": {
+      "title": "菜单"
+    },
+    "dept": {
+      "title": "部门"
+    },
+    "tenant": {
+      "title": "租户",
+      "name": "名称",
+      "status": "状态",
+      "domain": "域名",
+      "startTime": "开始时间",
+      "endTime": "结束时间"
+    },
+    "tenantPackage": {
+      "title": "租户套餐",
+      "name": "名称"
+    },
+    "dictionary": {
+      "title": "字典"
+    }
+  },
+  "thingsModel": {
+    "title": "物模型",
+    "product": {
+      "title": "产品"
+    },
+    "manufacturer": {
+      "title": "厂商"
+    },
+    "driver": {
+      "title": "驱动",
+      "size": "大小",
+      "type": "类型",
+      "version": "版本",
+      "extType": "扩展类型",
+      "extType-dll": "DLL",
+      "extType-dylib": "DYLIB",
+      "extType-so": "SO",
+      "type-builtin": "内置",
+      "type-custom": "自定义"
+    }
+  },
+  "entity": {
+    "title": "实体",
+    "device": {
+      "title": "设备"
+    },
+    "asset": {
+      "title": "资产"
+    }
+  },
+  "audit": {
+    "title": "审计",
+    "operationRecord": {
+      "title": "操作日志"
+    }
   }
 }

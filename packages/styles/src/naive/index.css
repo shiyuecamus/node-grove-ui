@@ -17,4 +17,13 @@
   .n-checkbox-box__border {
     --n-border: 1px solid rgb(255 56 96);
   }
+  
+}
+.n-tabs .n-tabs-rail .n-tabs-capsule {
+  background-color: hsl(var(--primary)) !important;
+  border-color: hsl(var(--border)) !important;
+}
+
+.n-tabs-tab .n-tabs-tab--active {
+  color: hsl(var(--primary)) !important;
 }

@@ -15,6 +15,8 @@ import {
   h,
   ref,
 } from 'vue';
+import { VueTelInput } from 'vue-tel-input';
+import 'vue-tel-input/vue-tel-input.css';
 
 import { ApiComponent, globalShareState, IconPicker } from '@vben/common-ui';
 import { $t } from '@vben/locales';
@@ -69,6 +71,9 @@ const NTreeSelect = defineAsyncComponent(() =>
 const NUpload = defineAsyncComponent(() =>
   import('naive-ui/es/upload').then((res) => res.NUpload),
 );
+const NDynamicInput = defineAsyncComponent(() =>
+  import('naive-ui/es/dynamic-input').then((res) => res.NDynamicInput),
+);
 
 const withDefaultPlaceholder = <T extends Component>(
   component: T,
@@ -116,6 +121,7 @@ export type ComponentType =
   | 'IconPicker'
   | 'Input'
   | 'InputNumber'
+  | 'InputTel'
   | 'RadioGroup'
   | 'Select'
   | 'Space'
@@ -190,7 +196,12 @@ async function initComponentAdapter() {
       inputComponent: NInput,
     }),
     Input: withDefaultPlaceholder(NInput, 'input'),
+    DynamicInput: withDefaultPlaceholder(NDynamicInput, 'input'),
     InputNumber: withDefaultPlaceholder(NInputNumber, 'input'),
+    InputTel: withDefaultPlaceholder(
+      VueTelInput as unknown as Component,
+      'input',
+    ),
     RadioGroup: (props, { attrs, slots }) => {
       let defaultSlot;
       if (Reflect.has(slots, 'default')) {
