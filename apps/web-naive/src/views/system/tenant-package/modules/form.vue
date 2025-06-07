@@ -5,7 +5,7 @@ import { useVbenModal } from '@vben/common-ui';
 import { FormOpenType } from '@vben/constants';
 import { $t } from '@vben/locales';
 
-import { useVbenForm } from '#/adapter/form';
+import { useStepForm } from '#/shared/components/common/step-form';
 
 defineOptions({ name: 'TenantPackageForm' });
 
@@ -16,32 +16,74 @@ const emit = defineEmits<{
 const type = ref(FormOpenType.CREATE);
 
 // 初始化表单
-const [Form, formApi] = useVbenForm({
-  handleSubmit: (record: Record<string, any>) => emit('submit', record),
-  schema: [
+const [StepForm] = useStepForm({
+  onComplete: (allValues: any) => {
+    emit('submit', allValues);
+  },
+  forms: [
     {
-      component: 'Input',
-      componentProps: {
-        placeholder: $t('ui.placeholder.inputWithName', {
-          name: $t('page.system.tenantPackage.name'),
-        }),
-      },
-      fieldName: 'name',
-      label: $t('page.system.tenantPackage.name'),
-      rules: 'required',
+      schema: [
+        {
+          component: 'Input',
+          componentProps: {
+            placeholder: $t('ui.placeholder.inputWithName', {
+              name: $t('page.system.tenantPackage.name'),
+            }),
+          },
+          formItemClass: 'col-span-2',
+          fieldName: 'name',
+          label: $t('page.system.tenantPackage.name'),
+          rules: 'required',
+        },
+        {
+          component: 'SubForm',
+          componentProps: {
+            title: $t('page.system.tenantPackage.configInfo'),
+            defaultExpanded: true,
+            schemas: [
+              {
+                label: $t('page.system.tenantPackage.name'),
+                fieldName: 'name',
+                component: 'Input',
+                componentProps: {
+                  placeholder: $t('ui.placeholder.inputWithName', {
+                    name: $t('page.system.tenantPackage.name'),
+                  }),
+                },
+              },
+            ],
+          },
+          hideLabel: true,
+          formItemClass: 'col-span-2',
+          fieldName: 'configData',
+        },
+      ],
+      wrapperClass: 'grid-cols-2',
     },
   ],
-  showDefaultActions: false,
+  stepConfigs: [
+    // {
+    //   title: $t('page.system.tenantPackage.baseInfo'),
+    //   icon: 'lucide:info',
+    //   description: $t('page.system.tenantPackage.baseInfoDescription'),
+    // },
+    {
+      title: $t('page.system.tenantPackage.configInfo'),
+      icon: 'lucide:settings',
+      description: $t('page.system.tenantPackage.configInfoDescription'),
+    },
+  ],
+  showSubmitButton: true,
 });
-
 const [Modal, modalApi] = useVbenModal({
   fullscreenButton: false,
+  footer: false,
   class: 'w-2/5',
   onCancel() {
     modalApi.close();
   },
   onConfirm: async () => {
-    await formApi.validateAndSubmitForm();
+    // await formApi.validateAndSubmitForm();
     // modalApi.close();
   },
   onOpenChange(isOpen: boolean) {
@@ -50,7 +92,7 @@ const [Modal, modalApi] = useVbenModal({
         const { type: t, data } = modalApi.getData<Record<string, any>>();
         type.value = t;
         if (t === FormOpenType.EDIT && data) {
-          formApi.setValues(data);
+          // formApi.setValues(data);
         }
       }
     });
@@ -60,7 +102,7 @@ const [Modal, modalApi] = useVbenModal({
 
 <template>
   <Modal>
-    <Form />
+    <StepForm />
   </Modal>
 </template>
 

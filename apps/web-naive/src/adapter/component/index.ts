@@ -22,6 +22,7 @@ import { ApiComponent, globalShareState, IconPicker } from '@vben/common-ui';
 import { $t } from '@vben/locales';
 
 import { message } from '#/adapter/naive';
+import SubForm from '#/shared/components/common/sub-form/sub-form.vue';
 
 const NButton = defineAsyncComponent(() =>
   import('naive-ui/es/button').then((res) => res.NButton),
@@ -125,6 +126,7 @@ export type ComponentType =
   | 'RadioGroup'
   | 'Select'
   | 'Space'
+  | 'SubForm'
   | 'Switch'
   | 'TimePicker'
   | 'TreeSelect'
@@ -230,6 +232,7 @@ async function initComponentAdapter() {
     TimePicker: NTimePicker,
     TreeSelect: withDefaultPlaceholder(NTreeSelect, 'select'),
     Upload: NUpload,
+    SubForm,
   };
 
   // 将组件注册到全局共享状态中

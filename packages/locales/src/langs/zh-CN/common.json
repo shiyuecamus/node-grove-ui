@@ -41,6 +41,9 @@
   "downloadBatchWithName": "批量下载{name}",
   "asignMenu": "分配菜单",
   "tips": "温馨提示",
+  "previous": "上一步",
+  "next": "下一步",
+  "submit": "提交",
   "status": {
     "title": "状态",
     "enabled": "启用",

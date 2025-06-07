@@ -1,6 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/tsconfig",
   "extends": "@vben/tsconfig/web.json",
-  "include": ["src", "__tests__"],
+  "include": ["src", "__tests__", "../../../../apps/web-naive/src/shared/components/common/step-form/step-form.vue"],
   "exclude": ["node_modules"]
 }

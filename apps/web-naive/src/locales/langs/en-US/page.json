@@ -38,7 +38,11 @@
     },
     "tenantPackage": {
       "title": "Tenant Package",
-      "name": "Name"
+      "name": "Name",
+      "baseInfo": "Base Info",
+      "configInfo": "Config Info",
+      "baseInfoDescription": "Please fill in the base information",
+      "configInfoDescription": "Please fill in the configuration information"
     },
     "dictionary": {
       "title": "Dictionary"

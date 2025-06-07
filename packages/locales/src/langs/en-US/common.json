@@ -41,6 +41,9 @@
   "downloadBatchWithName": "Download Batch {name}",
   "asignMenu": "Asign Menu",
   "tips": "Tips",
+  "previous": "Previous",
+  "next": "Next",
+  "submit": "Submit",
   "status": {
     "title": "Status",
     "enabled": "Enabled",

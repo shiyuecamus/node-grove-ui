@@ -4,6 +4,7 @@ import type { VbenFormProps } from '@vben/common-ui';
 import type { VxeGridListeners, VxeGridProps } from '#/adapter/vxe-table';
 
 import { confirm, Page, useVbenModal } from '@vben/common-ui';
+import { FormOpenType } from '@vben/constants';
 import { useMessageHandler } from '@vben/hooks';
 import { $t } from '@vben/locales';
 import { CommonStatus, EntityType } from '@vben/types';
@@ -21,6 +22,7 @@ import {
 import { useEntityDetailDrawer } from '#/shared/components/entity/detail';
 
 import AssignMenu from './modules/assign-menu.vue';
+import TenantPackageForm from './modules/form.vue';
 
 const { handleRequest } = useMessageHandler();
 
@@ -153,6 +155,10 @@ const [AssignMenuModal, assignMenuModalApi] = useVbenModal({
   connectedComponent: AssignMenu,
 });
 
+const [FormModal, formModalApi] = useVbenModal({
+  connectedComponent: TenantPackageForm,
+});
+
 const [EntityDetailDrawer, entityDetailDrawerApi] = useEntityDetailDrawer({
   entityType: EntityType.TENANT_PACKAGE,
   // defaultActiveTab: 'details',
@@ -205,13 +211,26 @@ const handleAssignMenuSubmit = async (
     },
   );
 };
+
+const handleCreate = () => {
+  formModalApi
+    .setData({
+      type: FormOpenType.CREATE,
+    })
+    .setState({
+      title: $t('common.createWithName', {
+        name: $t('page.system.tenantPackage.title'),
+      }),
+    })
+    .open();
+};
 </script>
 
 <template>
   <Page auto-content-height>
     <Grid>
       <template #toolbar-tools>
-        <NButton class="mr-2" type="primary">
+        <NButton class="mr-2" type="primary" @click="handleCreate">
           <span>{{
             `${$t('common.createWithName', { name: $t('page.system.tenantPackage.title') })}`
           }}</span>
@@ -270,5 +289,6 @@ const handleAssignMenuSubmit = async (
         </div>
       </template>
     </EntityDetailDrawer>
+    <FormModal />
   </Page>
 </template>

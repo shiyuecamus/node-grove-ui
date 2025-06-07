@@ -144,15 +144,16 @@ const [Modal, modalApi] = useVbenModal({
 });
 
 const handleCreate = () => {
-  modalApi.setData({
-    type: FormOpenType.CREATE,
-  });
-  modalApi.setState({
-    title: $t('common.createWithName', {
-      name: $t('page.system.tenant.title'),
-    }),
-  });
-  modalApi.open();
+  modalApi
+    .setData({
+      type: FormOpenType.CREATE,
+    })
+    .setState({
+      title: $t('common.createWithName', {
+        name: $t('page.system.tenant.title'),
+      }),
+    })
+    .open();
 };
 
 const handleDelete = async (row: TenantInfo) => {

@@ -38,7 +38,11 @@
     },
     "tenantPackage": {
       "title": "租户套餐",
-      "name": "名称"
+      "name": "名称",
+      "baseInfo": "基础信息",
+      "configInfo": "配置信息",
+      "baseInfoDescription": "请填写基础信息",
+      "configInfoDescription": "请填写配置信息"
     },
     "dictionary": {
       "title": "字典"
