@@ -1,109 +1,71 @@
 <script lang="ts" setup>
 import { nextTick, ref } from 'vue';
 
-import { useVbenModal } from '@vben/common-ui';
+import { useVbenDrawer } from '@vben/common-ui';
 import { FormOpenType } from '@vben/constants';
-import { $t } from '@vben/locales';
+import { useMessageHandler } from '@vben/hooks';
 
+import { getTenantPackageById } from '#/api/core/tenant-package';
 import { useStepForm } from '#/shared/components/common/step-form';
+
+import { forms, stepConfigs } from './schemas';
 
 defineOptions({ name: 'TenantPackageForm' });
 
 const emit = defineEmits<{
-  submit: [Record<string, any>];
+  submit: [FormOpenType, Record<string, any>];
 }>();
 
+const { handleRequest } = useMessageHandler();
+
 const type = ref(FormOpenType.CREATE);
+const loading = ref(false);
 
 // 初始化表单
-const [StepForm] = useStepForm({
+const [StepForm, stepFormApi] = useStepForm({
   onComplete: (allValues: any) => {
-    emit('submit', allValues);
+    emit('submit', type.value, allValues);
+    drawerApi.close();
   },
-  forms: [
-    {
-      schema: [
-        {
-          component: 'Input',
-          componentProps: {
-            placeholder: $t('ui.placeholder.inputWithName', {
-              name: $t('page.system.tenantPackage.name'),
-            }),
-          },
-          formItemClass: 'col-span-2',
-          fieldName: 'name',
-          label: $t('page.system.tenantPackage.name'),
-          rules: 'required',
-        },
-        {
-          component: 'SubForm',
-          componentProps: {
-            title: $t('page.system.tenantPackage.configInfo'),
-            defaultExpanded: true,
-            schemas: [
-              {
-                label: $t('page.system.tenantPackage.name'),
-                fieldName: 'name',
-                component: 'Input',
-                componentProps: {
-                  placeholder: $t('ui.placeholder.inputWithName', {
-                    name: $t('page.system.tenantPackage.name'),
-                  }),
-                },
-              },
-            ],
-          },
-          hideLabel: true,
-          formItemClass: 'col-span-2',
-          fieldName: 'configData',
-        },
-      ],
-      wrapperClass: 'grid-cols-2',
-    },
-  ],
-  stepConfigs: [
-    // {
-    //   title: $t('page.system.tenantPackage.baseInfo'),
-    //   icon: 'lucide:info',
-    //   description: $t('page.system.tenantPackage.baseInfoDescription'),
-    // },
-    {
-      title: $t('page.system.tenantPackage.configInfo'),
-      icon: 'lucide:settings',
-      description: $t('page.system.tenantPackage.configInfoDescription'),
-    },
-  ],
+  forms,
+  stepConfigs,
   showSubmitButton: true,
 });
-const [Modal, modalApi] = useVbenModal({
-  fullscreenButton: false,
+const [Drawer, drawerApi] = useVbenDrawer({
   footer: false,
-  class: 'w-2/5',
+  class: 'w-1/2',
+  destroyOnClose: true,
   onCancel() {
-    modalApi.close();
+    drawerApi.close();
   },
-  onConfirm: async () => {
-    // await formApi.validateAndSubmitForm();
-    // modalApi.close();
-  },
-  onOpenChange(isOpen: boolean) {
-    nextTick(() => {
-      if (isOpen) {
-        const { type: t, data } = modalApi.getData<Record<string, any>>();
-        type.value = t;
-        if (t === FormOpenType.EDIT && data) {
-          // formApi.setValues(data);
-        }
+  onOpenChange: async (isOpen: boolean) => {
+    if (isOpen) {
+      await nextTick();
+      const { type: t, id } = drawerApi.getData<Record<string, any>>();
+      type.value = t;
+      if (t === FormOpenType.EDIT) {
+        loading.value = true;
+        await handleRequest(
+          () => getTenantPackageById(id),
+          (data) => {
+            stepFormApi.setValues(data);
+            loading.value = false;
+          },
+          (error) => {
+            loading.value = false;
+            console.error(error);
+          },
+        );
       }
-    });
+    }
   },
 });
 </script>
 
 <template>
-  <Modal>
-    <StepForm />
-  </Modal>
+  <Drawer>
+    <StepForm v-loading="loading" />
+  </Drawer>
 </template>
 
 <style scoped></style>

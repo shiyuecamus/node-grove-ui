@@ -159,7 +159,12 @@ export class FormApi {
 
   async getValues<T = Recordable<any>>() {
     const form = await this.getForm();
-    return (form.values ? this.handleRangeTimeValue(form.values) : {}) as T;
+    let values = form.values ? this.handleRangeTimeValue(form.values) : {};
+
+    // 处理扁平化字段
+    values = this.handleFlattenFields(values);
+
+    return values as T;
   }
 
   async isFieldValid(fieldName: string) {
@@ -293,6 +298,7 @@ export class FormApi {
       return;
     }
 
+    const processedFields = this.preprocessFlattenFields(fields);
     /**
      * 合并算法有待改进，目前的算法不支持object类型的值。
      * antd的日期时间相关组件的值类型为dayjs对象
@@ -311,9 +317,9 @@ export class FormApi {
       }
       return true;
     });
-    const filteredFields = fieldMergeFn(fields, form.values);
+    const filteredFields = fieldMergeFn(processedFields, form.values);
     this.handleStringToArrayFields(filteredFields);
-    form.setValues(filteredFields, shouldValidate);
+    form.setValues(processedFields, shouldValidate);
   }
 
   async submitForm(e?: Event) {
@@ -452,6 +458,31 @@ export class FormApi {
     });
   };
 
+  /**
+   * 处理扁平化字段，将注册的扁平化字段拆分到对应的嵌套结构中
+   * @param values 表单值
+   * @returns 处理后的表单值
+   */
+  private handleFlattenFields = (
+    values: Record<string, any>,
+  ): Record<string, any> => {
+    return (
+      this.state?.schema?.reduce(
+        (acc, { fieldName, flatten }) => {
+          // 如果不需要扁平化或不是对象，保持原样
+          if (!flatten || !isObject(acc[fieldName])) {
+            return acc;
+          }
+
+          // 需要扁平化时，返回一个新对象
+          const { [fieldName]: flattenObj, ...rest } = acc;
+          return { ...rest, ...flattenObj };
+        },
+        { ...values },
+      ) ?? { ...values }
+    );
+  };
+
   private handleRangeTimeValue = (originValues: Record<string, any>) => {
     const values = { ...originValues };
     const fieldMappingTime = this.state?.fieldMappingTime;
@@ -560,6 +591,102 @@ export class FormApi {
         }
       }
     });
+  };
+
+  /**
+   * 预处理扁平化字段，将扁平数据重组为嵌套结构
+   * @param fields 输入的表单值
+   * @returns 处理后的表单值
+   */
+  private preprocessFlattenFields = (
+    fields: Record<string, any>,
+  ): Record<string, any> => {
+    if (!this.state?.schema) return { ...fields };
+
+    // 创建一个新对象，避免修改原始输入
+    const result = { ...fields };
+
+    // 找出所有需要扁平化的字段
+    const flattenSchemas = this.state.schema.filter(({ flatten }) => flatten);
+
+    if (flattenSchemas.length === 0) return result;
+
+    // 用于设置嵌套路径值的辅助函数
+    const setNestedValue = (
+      obj: Record<string, any>,
+      path: string[],
+      value: any,
+    ): void => {
+      const lastIndex = path.length - 1;
+      if (lastIndex < 0) return;
+
+      for (let i = 0; i < lastIndex; i++) {
+        const key = path[i];
+        if (!key) continue; // 跳过空键
+
+        if (!(key in obj)) {
+          obj[key] = {};
+        }
+        obj = obj[key];
+      }
+
+      const lastKey = path[lastIndex];
+      if (lastKey) {
+        obj[lastKey] = value;
+      }
+    };
+
+    // 用于获取嵌套路径值的辅助函数
+    const getNestedValue = (obj: Record<string, any>, path: string[]): any => {
+      let current = obj;
+      for (const key of path) {
+        if (!current || isObject(current) || !key) return undefined;
+        current = current[key];
+      }
+      return current;
+    };
+
+    // 一次性处理所有扁平化字段
+    flattenSchemas.forEach(({ fieldName, componentProps }) => {
+      if (!fieldName || !componentProps) return;
+
+      const pathParts = fieldName.split('.').filter(Boolean); // 过滤空字符串
+      if (pathParts.length === 0) return;
+
+      // 确保嵌套对象结构存在
+      let nestedObj = getNestedValue(result, pathParts);
+      if (!nestedObj) {
+        nestedObj = {};
+        setNestedValue(result, pathParts, nestedObj);
+      } else if (!isObject(nestedObj)) {
+        // 如果当前路径已存在但不是对象，则转换为对象
+        nestedObj = {};
+        setNestedValue(result, pathParts, nestedObj);
+      }
+
+      // 安全地获取子模式
+      const subSchemas = (componentProps as any)?.schemas;
+      if (!Array.isArray(subSchemas) || subSchemas.length === 0) return;
+
+      // 一次性提取所有子字段名称
+      const subFieldNames = subSchemas
+        .map((schema: any) => schema.fieldName)
+        .filter(Boolean);
+
+      // 将子字段的值从顶层移动到嵌套对象中
+      subFieldNames.forEach((subField) => {
+        if (subField in result) {
+          // 直接访问最后创建的对象引用，避免重复解析路径
+          const targetObj = getNestedValue(result, pathParts);
+          if (targetObj && isObject(targetObj)) {
+            targetObj[subField] = result[subField];
+            Reflect.deleteProperty(result, subField);
+          }
+        }
+      });
+    });
+
+    return result;
   };
 
   private processFields = (

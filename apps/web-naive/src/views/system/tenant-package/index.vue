@@ -1,9 +1,10 @@
 <script lang="ts" setup>
 import type { VbenFormProps } from '@vben/common-ui';
+import type { TenantPackageInfo, TenantPackageInfoWithId } from '@vben/types';
 
 import type { VxeGridListeners, VxeGridProps } from '#/adapter/vxe-table';
 
-import { confirm, Page, useVbenModal } from '@vben/common-ui';
+import { confirm, Page, useVbenDrawer, useVbenModal } from '@vben/common-ui';
 import { FormOpenType } from '@vben/constants';
 import { useMessageHandler } from '@vben/hooks';
 import { $t } from '@vben/locales';
@@ -11,18 +12,22 @@ import { CommonStatus, EntityType } from '@vben/types';
 
 import { VbenIcon, VbenTooltip } from '@vben-core/shadcn-ui';
 
-import { NButton, useMessage } from 'naive-ui';
+import { NButton, NSwitch, useMessage } from 'naive-ui';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import {
   asignTenantPackageMenu,
+  changeTenantPackageStatus,
+  createTenantPackage,
   deleteTenantPackage,
   fetchTenantPackagePage,
+  updateTenantPackage,
 } from '#/api/core/tenant-package';
 import { useEntityDetailDrawer } from '#/shared/components/entity/detail';
 
 import AssignMenu from './modules/assign-menu.vue';
 import TenantPackageForm from './modules/form.vue';
+import { columns, searchFormSchema } from './modules/schemas';
 
 const { handleRequest } = useMessageHandler();
 
@@ -40,53 +45,7 @@ interface RowType {
 const formOptions: VbenFormProps = {
   // 默认展开
   collapsed: true,
-  schema: [
-    {
-      component: 'Input',
-      fieldName: 'name',
-      label: $t('common.baseInfo.name'),
-      componentProps: {
-        clearable: true,
-      },
-    },
-    {
-      component: 'Select',
-      componentProps: {
-        clearable: true,
-        options: [
-          {
-            label: $t('common.status.enabled'),
-            value: CommonStatus.ENABLED,
-          },
-          {
-            label: $t('common.status.disabled'),
-            value: CommonStatus.DISABLED,
-          },
-        ],
-        placeholder: $t('ui.placeholder.select'),
-      },
-      fieldName: 'status',
-      label: $t('common.status.title'),
-    },
-    {
-      component: 'DatePicker',
-      fieldName: 'startTime',
-      label: $t('common.baseInfo.startTime'),
-      componentProps: {
-        type: 'datetime',
-        clearable: true,
-      },
-    },
-    {
-      component: 'DatePicker',
-      fieldName: 'endTime',
-      label: $t('common.baseInfo.endTime'),
-      componentProps: {
-        type: 'datetime',
-        clearable: true,
-      },
-    },
-  ],
+  schema: searchFormSchema,
   // 控制表单是否显示折叠按钮
   showCollapseButton: true,
   // 按下回车时是否提交表单
@@ -98,15 +57,7 @@ const gridOptions: VxeGridProps<RowType> = {
     highlight: true,
     labelField: 'name',
   },
-  columns: [
-    { field: 'name', title: $t('common.baseInfo.name') },
-    {
-      field: 'createdAt',
-      formatter: 'formatDateTime',
-      title: $t('common.baseInfo.createdAt'),
-    },
-    { slots: { default: 'action' }, title: $t('common.actions') },
-  ],
+  columns,
   exportConfig: {},
   height: 'auto', // 如果设置为 auto，则必须确保存在父节点且不允许存在相邻元素，否则会出现高度闪动问题
   keepSource: true,
@@ -137,11 +88,17 @@ const gridOptions: VxeGridProps<RowType> = {
     refresh: true,
     zoom: true,
   },
+  sortConfig: {
+    remote: true,
+  },
 };
 
 const gridEvents: VxeGridListeners<RowType> = {
-  currentRowChange: ({ row }) => {
+  cellClick: ({ row }) => {
     entityDetailDrawerApi.setEntity(EntityType.TENANT_PACKAGE, row.id).open();
+  },
+  sortChange: async (_params) => {
+    // TODO: 排序
   },
 };
 
@@ -155,13 +112,12 @@ const [AssignMenuModal, assignMenuModalApi] = useVbenModal({
   connectedComponent: AssignMenu,
 });
 
-const [FormModal, formModalApi] = useVbenModal({
+const [FormDrawer, formDrawerApi] = useVbenDrawer({
   connectedComponent: TenantPackageForm,
 });
 
 const [EntityDetailDrawer, entityDetailDrawerApi] = useEntityDetailDrawer({
   entityType: EntityType.TENANT_PACKAGE,
-  // defaultActiveTab: 'details',
 });
 
 const handleDelete = async (row: RowType) => {
@@ -213,7 +169,7 @@ const handleAssignMenuSubmit = async (
 };
 
 const handleCreate = () => {
-  formModalApi
+  formDrawerApi
     .setData({
       type: FormOpenType.CREATE,
     })
@@ -223,6 +179,66 @@ const handleCreate = () => {
       }),
     })
     .open();
+};
+
+const handleEdit = (row: RowType) => {
+  formDrawerApi
+    .setData({
+      type: FormOpenType.EDIT,
+      id: row.id,
+    })
+    .setState({
+      title: $t('common.editWithName', {
+        name: row.name,
+      }),
+    })
+    .open();
+};
+
+const handleUpdateStatus = async (row: RowType, value: boolean) => {
+  await handleRequest(
+    async () => {
+      await changeTenantPackageStatus(
+        row.id,
+        value ? CommonStatus.ENABLED : CommonStatus.DISABLED,
+      );
+      await gridApi.query();
+    },
+    (_) => {
+      message.success($t('common.action.updateSuccess'));
+    },
+    (_: any) => {
+      message.error($t('common.action.updateFail'));
+    },
+  );
+};
+
+const handleFormSubmit = async (
+  type: FormOpenType,
+  values: Record<string, any>,
+) => {
+  if (type === FormOpenType.CREATE) {
+    handleRequest(
+      () => createTenantPackage(values as TenantPackageInfo),
+      (_) => {
+        message.success($t('common.action.createSuccess'));
+      },
+      (_: any) => {
+        message.error($t('common.action.createFail'));
+      },
+    );
+  } else {
+    handleRequest(
+      () => updateTenantPackage(values as TenantPackageInfoWithId),
+      (_) => {
+        message.success($t('common.action.updateSuccess'));
+      },
+      (_: any) => {
+        message.error($t('common.action.updateFail'));
+      },
+    );
+  }
+  await gridApi.query();
 };
 </script>
 
@@ -244,7 +260,7 @@ const handleCreate = () => {
               size="small"
               tertiary
               type="error"
-              @click="handleDelete(row)"
+              @click.stop="handleDelete(row)"
             >
               <template #icon>
                 <VbenIcon icon="lucide:trash-2" />
@@ -259,8 +275,24 @@ const handleCreate = () => {
               circle
               size="small"
               tertiary
-              type="info"
-              @click="handleAssignMenu(row)"
+              type="primary"
+              @click.stop="handleEdit(row)"
+            >
+              <template #icon>
+                <VbenIcon icon="lucide:edit" />
+              </template>
+            </NButton>
+          </template>
+          {{ $t('common.edit') }}
+        </VbenTooltip>
+        <VbenTooltip trigger="hover" side="top">
+          <template #trigger>
+            <NButton
+              circle
+              size="small"
+              tertiary
+              type="primary"
+              @click.stop="handleAssignMenu(row)"
             >
               <template #icon>
                 <VbenIcon icon="lucide:align-horizontal-distribute-center" />
@@ -269,6 +301,13 @@ const handleCreate = () => {
           </template>
           {{ $t('common.asignMenu') }}
         </VbenTooltip>
+      </template>
+      <template #status="{ row }">
+        <NSwitch
+          :value="row.status === CommonStatus.ENABLED"
+          @update:value="handleUpdateStatus(row, $event)"
+          @click.stop
+        />
       </template>
     </Grid>
     <AssignMenuModal class="w-2/5" @submit="handleAssignMenuSubmit" />
@@ -289,6 +328,6 @@ const handleCreate = () => {
         </div>
       </template>
     </EntityDetailDrawer>
-    <FormModal />
+    <FormDrawer @submit="handleFormSubmit" />
   </Page>
 </template>

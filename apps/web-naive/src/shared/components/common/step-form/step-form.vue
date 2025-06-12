@@ -1,50 +1,17 @@
 <script setup lang="ts">
 import type { StepsProps } from 'naive-ui';
 
-import type { ExtendedFormApi } from '@vben/common-ui';
+import type { Component, VNode } from 'vue';
 
-import { computed, ref } from 'vue';
+import type { SimpleStepFormProps } from './types';
+
+import { computed, h, ref } from 'vue';
 
 import { IconifyIcon } from '@vben/icons';
 
 import { NButton, NButtonGroup, NStep, NSteps } from 'naive-ui';
 
-export interface StepConfig {
-  description?: string;
-  icon?: string | typeof IconifyIcon;
-  title: string;
-}
-
-const props = defineProps<{
-  /** Custom class for action wrapper */
-  actionWrapperClass?: string;
-  /** Current step index (0-based) */
-  current: number;
-  /** Form APIs for each step */
-  formApis: ExtendedFormApi[];
-  /** Form components for each step */
-  formComponents: any[];
-  /** Handler for next step action */
-  onNextStep?: () => Promise<void>;
-  /** Handler for previous step action */
-  onPrevStep?: () => Promise<void>;
-  /** Handler for step change */
-  onStepChange?: (step: number) => void;
-  /** Handler for submitting all forms */
-  onSubmitAll?: () => Promise<void>;
-  /** Options for the reset/back button */
-  resetButtonOptions?: Record<string, any>;
-  /** Whether to show the steps navigation */
-  showSteps?: boolean;
-  /** Whether to show submit button */
-  showSubmit?: boolean;
-  /** Configuration for each step */
-  stepConfigs?: StepConfig[];
-  /** Custom class for the stepper */
-  stepperClass?: string;
-  /** Options for the submit button */
-  submitButtonOptions?: Record<string, any>;
-}>();
+const props = defineProps<SimpleStepFormProps>();
 
 const emit = defineEmits(['update:current']);
 
@@ -61,6 +28,30 @@ const currentStep = computed({
     }
   },
 });
+
+/**
+ * Renders content as either a string or component
+ */
+const renderContent = (
+  content?: Component | string,
+  isIcon = false,
+): undefined | VNode => {
+  if (!content) return undefined;
+
+  if (typeof content === 'string') {
+    // For icons, we need to handle HTML strings as icon content
+    if (isIcon) {
+      return h(IconifyIcon, { icon: content as unknown as string });
+    }
+    // For regular text content, use a text node
+    return h('span', content);
+  }
+
+  // Component rendering
+  return isIcon
+    ? h(IconifyIcon, { icon: content as unknown as string })
+    : h(content);
+};
 
 /**
  * Generate step configurations based on provided configs or create defaults
@@ -162,11 +153,16 @@ const showSubmitButton = computed(
       <NStep
         v-for="item in steps"
         :key="item.step"
-        :title="item.title"
         :description="item.description"
       >
-        <template v-if="typeof item.icon === 'string'" #icon>
-          <IconifyIcon :icon="item.icon" />
+        <!-- Custom title rendering -->
+        <template #title>
+          <component :is="renderContent(item.title)" />
+        </template>
+
+        <!-- Icon rendering -->
+        <template #icon>
+          <component :is="renderContent(item.icon.toString(), true)" />
         </template>
       </NStep>
     </NSteps>
@@ -216,3 +212,15 @@ const showSubmitButton = computed(
     </div>
   </div>
 </template>
+<style lang="scss" scoped>
+:deep(.n-steps) {
+  .n-step .n-step-indicator {
+    background-color: transparent !important;
+  }
+  .n-step-content {
+    .n-step-content__description {
+      font-size: 12px;
+    }
+  }
+}
+</style>

@@ -1,10 +1,11 @@
 import type {
   CommonPageRequest,
   CommonPageResponse,
-  CommonStatus,
   TenantPackageInfo,
   TenantPackageInfoWithId,
 } from '@vben/types';
+
+import { CommonStatus } from '@vben/types';
 
 import { requestClient } from '../request';
 
@@ -19,7 +20,7 @@ export namespace TenantPackageApi {
   /** tenant package page params */
   export interface TenantPackagePageParams extends CommonPageRequest {
     name?: string;
-    status?: CommonStatus;
+    status?: (typeof CommonStatus)[keyof typeof CommonStatus];
   }
 }
 
@@ -82,7 +83,7 @@ export async function getTenantPackageById(id: number | string) {
  */
 export async function changeTenantPackageStatus(
   id: number | string,
-  status: CommonStatus,
+  status: (typeof CommonStatus)[keyof typeof CommonStatus],
 ) {
   return requestClient.put(TenantPackageApi.changeStatus, { id, status });
 }

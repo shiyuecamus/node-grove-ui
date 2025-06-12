@@ -1,12 +1,12 @@
 import type { Component } from 'vue';
 
-import type { VbenFormSchema } from '@vben/common-ui';
+import type { FormCommonConfig, VbenFormSchema } from '@vben/common-ui';
 
 export interface SubFormProps {
   /**
    * Title of the collapsible panel
    */
-  title?: string;
+  title?: Component | string;
 
   /**
    * Unique identifier for the panel
@@ -22,22 +22,12 @@ export interface SubFormProps {
   /**
    * Extra content to display in the header
    */
-  extra?: string;
-
-  /**
-   * Component to display as extra content in header
-   */
-  extraComponent?: Component;
+  extra?: Component | string;
 
   /**
    * Custom arrow icon
    */
-  arrowIcon?: string;
-
-  /**
-   * Custom arrow component
-   */
-  arrowComponent?: Component;
+  arrowIcon?: Component | string;
 
   /**
    * Form schemas for this sub-form
@@ -61,4 +51,77 @@ export interface SubFormProps {
    * @default false
    */
   disabled?: boolean;
+
+  /**
+   * Common config for the form
+   */
+  commonConfig?: FormCommonConfig;
+
+  /**
+   * Arrow placement
+   * @default "right"
+   */
+  arrowPlacement?: 'left' | 'right';
+
+  /**
+   * Header class
+   */
+  headerClass?: string;
+
+  /**
+   * Header extra class
+   */
+  headerExtraClass?: string;
+
+  /**
+   * Header content class
+   */
+  headerContentClass?: string;
+}
+
+/**
+ * Options for creating a form section
+ */
+export interface CreateFormSectionOptions {
+  /**
+   * Title for the section
+   */
+  title: Component | string;
+
+  /**
+   * Icon for the section title
+   */
+  icon: string;
+
+  /**
+   * Field name for the form section
+   */
+  fieldName: string;
+
+  /**
+   * Form schemas for this section
+   */
+  schemas: VbenFormSchema[];
+
+  /**
+   * Whether this section is expanded by default
+   * @default true
+   */
+  defaultExpanded?: boolean;
+
+  /**
+   * Advanced schemas for this section
+   * @default []
+   */
+  advancedSchemas?: VbenFormSchema[];
+
+  /**
+   * Extra content to display in the header
+   */
+  extra?: Component | string;
+
+  /**
+   * Form validation rules
+   */
+  rules?: any;
 }

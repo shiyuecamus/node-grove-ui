@@ -10,6 +10,18 @@ import type { FormApi } from './form-api';
 
 export type FormLayout = 'horizontal' | 'vertical';
 
+export interface SubFormComponent {
+  formApi?:
+    | null
+    | undefined
+    | {
+        validate: () => Promise<{
+          errors?: Record<string, string>;
+          valid: boolean;
+        }>;
+      };
+}
+
 export type BaseFormComponentType =
   | 'DefaultButton'
   | 'PrimaryButton'
@@ -253,6 +265,8 @@ export interface FormSchema<
   description?: CustomRenderType;
   /** 字段名 */
   fieldName: string;
+  /** 是否扁平化 */
+  flatten?: boolean;
   /** 帮助信息 */
   help?: CustomRenderType;
   /** 表单项 */

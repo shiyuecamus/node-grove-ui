@@ -5,6 +5,7 @@ export type * from './common';
 export type * from './driver';
 export * from './driver';
 export type * from './tenant';
+export * from './tenant-package';
 export type * from './tenant-package';
 export type * from './user';
 export type * from '@vben-core/typings';

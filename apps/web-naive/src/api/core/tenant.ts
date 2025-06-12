@@ -1,9 +1,10 @@
 import type {
   CommonPageRequest,
   CommonPageResponse,
-  CommonStatus,
   TenantInfo,
 } from '@vben/types';
+
+import { CommonStatus } from '@vben/types';
 
 import { requestClient } from '#/api/request';
 
@@ -18,7 +19,7 @@ export namespace TenantApi {
   /** tenant page params */
   export interface TenantPageParams extends CommonPageRequest {
     name?: string;
-    status?: CommonStatus;
+    status?: (typeof CommonStatus)[keyof typeof CommonStatus];
   }
 }
 
@@ -61,7 +62,7 @@ export async function deleteTenant(id: number | string) {
  */
 export async function changeTenantStatus(
   id: number | string,
-  status: CommonStatus,
+  status: (typeof CommonStatus)[keyof typeof CommonStatus],
 ) {
   return requestClient.post(TenantApi.changeStatus, {
     id,

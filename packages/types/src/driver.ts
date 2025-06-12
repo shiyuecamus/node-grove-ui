@@ -3,20 +3,23 @@ import type { AdditionalInfo, BaseEntity, StatusInfo } from './base';
 import { TagColor } from './color';
 
 // driver type
-enum DriverType {
-  BUILTIN = 1,
-  CUSTOM = 2,
-}
+export const DriverType = {
+  BUILTIN: 1,
+  CUSTOM: 2,
+} as const;
 
 // driver type translation
-const DriverTypeTrans: Map<DriverType, string> = new Map([
+const DriverTypeTrans: Map<
+  (typeof DriverType)[keyof typeof DriverType],
+  string
+> = new Map([
   [DriverType.BUILTIN, 'page.thingsModel.driver.type-builtin'],
   [DriverType.CUSTOM, 'page.thingsModel.driver.type-custom'],
 ]);
 
 // driver type color
 const DriverTypeColor: Map<
-  DriverType,
+  (typeof DriverType)[keyof typeof DriverType],
   { borderColor: string; color: string; textColor: string }
 > = new Map([
   [DriverType.BUILTIN, TagColor.Cyan],
@@ -55,7 +58,7 @@ interface DriverInfo extends AdditionalInfo, BaseEntity, StatusInfo {
   description?: string;
   size?: number;
   checksum?: string;
-  type?: DriverType;
+  type?: (typeof DriverType)[keyof typeof DriverType];
 }
 
 export type { DriverInfo };
@@ -63,7 +66,6 @@ export {
   DriverExtType,
   DriverExtTypeColor,
   DriverExtTypeTrans,
-  DriverType,
   DriverTypeColor,
   DriverTypeTrans,
 };

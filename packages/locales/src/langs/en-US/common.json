@@ -44,6 +44,20 @@
   "previous": "Previous",
   "next": "Next",
   "submit": "Submit",
+  "advancedSettings": "Advanced Settings",
+  "rateLimit": {
+    "createRateLimit": "Create Rate Limit",
+    "limitPlaceholder": "Message Count",
+    "windowSecondsPlaceholder": "Window Seconds",
+    "limitHint": "Messages",
+    "windowSecondsHint": "Seconds"
+  },
+  "unit": {
+    "bytes": "Unit: Bytes",
+    "days": "Unit: Days",
+    "seconds": "Unit: Seconds",
+    "milliseconds": "Unit: Milliseconds"
+  },
   "status": {
     "title": "Status",
     "enabled": "Enabled",
@@ -52,7 +66,7 @@
   "baseInfo": {
     "name": "Name",
     "code": "Code",
-    "desc": "Desc",
+    "description": "Description",
     "startTime": "Start Time",
     "endTime": "End Time",
     "createdAt": "Created At",
@@ -108,5 +122,39 @@
     "assignFail": "Assign Fail",
     "assignSuccessWithName": "Assign Success, name: {name}",
     "assignFailWithName": "Assign Fail, name: {name}"
+  },
+  "validation": {
+    "validationFailed": "Validation failed",
+    "required": "{field} is required",
+    "mustBeNumber": "{field} must be a number",
+    "mustBeGreaterThan0": "{field} must be greater than 0",
+    "mustBeLessThan0": "{field} must be less than 0",
+    "mustBeGreaterThan": "{field} must be greater than {value}",
+    "mustBeLessThan": "{field} must be less than {value}",
+    "mustBeEqual": "{field} must be equal to {value}",
+    "mustBeNotEqual": "{field} must be not equal to {value}",
+    "mustBeGreaterThanOrEqual": "{field} must be greater than or equal to {value}",
+    "mustBeLessThanOrEqual": "{field} must be less than or equal to {value}",
+    "mustBeIn": "{field} must be in {value}",
+    "mustBeNotIn": "{field} must be not in {value}",
+    "mustBeInArray": "{field} must be in {value}",
+    "mustBeNotInArray": "{field} must be not in {value}",
+    "mustBeString": "{field} must be a string",
+    "mustBeBoolean": "{field} must be a boolean",
+    "mustBeDate": "{field} must be a date",
+    "mustBeTime": "{field} must be a time",
+    "mustBeDateTime": "{field} must be a date time",
+    "mustBeEmail": "{field} must be an email",
+    "mustBeUrl": "{field} must be a URL",
+    "mustBePhone": "{field} must be a phone number",
+    "mustBeMobile": "{field} must be a mobile number",
+    "mustBeIdCard": "{field} must be an ID card number",
+    "mustBeBankCard": "{field} must be a bank card number",
+    "mustBeIp": "{field} must be an IP address",
+    "mustBeMac": "{field} must be a MAC address",
+    "mustBeIpv4": "{field} must be an IPv4 address",
+    "mustBeIpv6": "{field} must be an IPv6 address",
+    "mustBePort": "{field} must be a port",
+    "mustBePortRange": "{field} must be a port range"
   }
 }

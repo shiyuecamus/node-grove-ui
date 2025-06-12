@@ -39,10 +39,135 @@
     "tenantPackage": {
       "title": "租户套餐",
       "name": "名称",
-      "baseInfo": "基础信息",
-      "configInfo": "配置信息",
-      "baseInfoDescription": "请填写基础信息",
-      "configInfoDescription": "请填写配置信息"
+      "description": "描述",
+      "baseInfo": "基础",
+      "limitsInfo": "限制",
+      "baseInfoDescription": "租户配置基础信息",
+      "limitsInfoDescription": "资源限制、速率限制等",
+      "limitsDescription": "0 - 无限制",
+      "queueInfo": {
+        "title": "队列",
+        "description": "队列信息配置",
+        "name": "名称",
+        "topic": "主题",
+        "pollInterval": "轮询间隔",
+        "partitions": "分区",
+        "packageProcessingTimeout": "包处理超时",
+        "submitStrategy": {
+          "title": "提交策略",
+          "immediate": "立即",
+          "delayed": "延迟",
+          "batch": "批量",
+          "burst": "突发",
+          "sequential": "顺序",
+          "sequentialByOriginator": "按发起者顺序",
+          "sequentialByTenant": "按租户顺序"
+        },
+        "submitBatchSize": "提交批量大小",
+        "retryStrategy": {
+          "type": "重试策略",
+          "retries": "重试次数",
+          "failurePercentage": "跳过失败百分比",
+          "pauseBetweenRetries": "重试间隔",
+          "maxPauseBetweenRetries": "最大重试间隔",
+          "retryAll": "全部重试",
+          "retryFailed": "失败重试",
+          "retryFailedAndTimeout": "失败与超时重试",
+          "retryTimeout": "超时重试",
+          "skipAllFailed": "跳过所有失败",
+          "skipAllFailedAndTimeout": "跳过所有失败与超时"
+        },
+        "group": {
+          "basicInfo": "基础信息",
+          "submitSettings": "提交设置",
+          "retrySettings": "重试设置",
+          "pollingSettings": "轮训设置"
+        }
+      },
+      "resourceLimits": {
+        "title": "资源限制",
+        "maxDevices": "最大设备数",
+        "maxUsers": "最大用户数",
+        "maxTenants": "最大租户数",
+        "maxAssets": "最大资产数",
+        "maxDepts": "最大部门数",
+        "maxRoles": "最大角色数",
+        "maxDrivers": "最大驱动数",
+        "maxDriversSizeInBytes": "最大驱动大小",
+        "maxSms": "最大短信数",
+        "maxAlarms": "最大告警数",
+        "maxProducts": "最大产品数",
+        "maxDashboards": "最大看板数",
+        "maxRuleChains": "最大规则链数",
+        "maxResources": "最大资源数",
+        "maxResourcesInBytes": "最大资源大小",
+        "maxOtaPackages": "最大软/固件包数",
+        "maxOtaPackagesSizeInBytes": "最大软/固件包大小"
+      },
+      "transportLimits": {
+        "title": "传输限制",
+        "tenantMessageRateLimit": "租户消息速率",
+        "tenantTelemetryMessageRateLimit": "租户遥测消息速率",
+        "tenantTelemetryDataPointsRateLimit": "租户遥测数据点速率",
+        "deviceMessageRateLimit": "设备消息速率",
+        "deviceTelemetryMessageRateLimit": "设备遥测消息速率",
+        "deviceTelemetryDataPointsRateLimit": "设备遥测数据点速率",
+        "gatewayMessageRateLimit": "网关消息速率",
+        "gatewayTelemetryMessageRateLimit": "网关遥测消息速率",
+        "gatewayTelemetryDataPointsRateLimit": "网关遥测数据点速率",
+        "gatewayDeviceMessageRateLimit": "网关设备消息速率",
+        "gatewayDeviceTelemetryMessageRateLimit": "网关设备遥测消息速率",
+        "gatewayDeviceTelemetryDataPointsRateLimit": "网关设备遥测数据点速率"
+      },
+      "apiLimits": {
+        "title": "API限制",
+        "tenantServerRestRateLimit": "租户Rest速率",
+        "deptServerRestRateLimit": "部门Rest速率",
+        "telemetryDbQueryRateLimit": "遥测数据库查询速率"
+      },
+      "executionLimits": {
+        "title": "规则引擎限制",
+        "maxRuleEngine": "最大规则引擎数",
+        "maxJs": "最大JS数",
+        "maxRuleNodePerMessage": "消息最大规则节点数",
+        "maxMessages": "最大消息数",
+        "maxDataPoints": "最大数据点数"
+      },
+      "notificationLimits": {
+        "title": "通知限制",
+        "tenantRequestsRateLimit": "租户请求速率",
+        "tenantRequestsPerRuleRateLimit": "每条规则租户请求速率",
+        "maxEmails": "最大邮件数",
+        "smsEnabled": "开启短信通知"
+      },
+      "websocketLimits": {
+        "title": "WebSocket限制",
+        "maxSessionsPerTenant": "租户最大会话数",
+        "maxSessionsPerDept": "部门最大会话数",
+        "maxSessionsPerRegularUser": "普通用户最大会话数",
+        "maxSessionsPerPublicUser": "公共用户最大会话数",
+        "messageQueueLimitPerSession": "会话最大消息队列数",
+        "maxSubscriptionsPerTenant": "租户最大订阅数",
+        "maxSubscriptionsPerDept": "部门最大订阅数",
+        "maxSubscriptionsPerRegularUser": "普通用户最大订阅数",
+        "maxSubscriptionsPerPublicUser": "公共用户最大订阅数",
+        "updatesPerSessionRateLimit": "会话更新速率"
+      },
+      "edgeLimit": {
+        "title": "边缘限制",
+        "eventRateLimit": "事件速率",
+        "eventRateLimitPerEdge": "边缘事件速率",
+        "uplinkMessageRateLimit": "上行消息速率",
+        "uplinkMessageRateLimitPerEdge": "边缘上行消息速率"
+      },
+      "storageTtl": {
+        "title": "存储TTL",
+        "defaultTtlDays": "默认",
+        "alarmsTtlDays": "告警",
+        "rpcTtlDays": "RPC",
+        "queueStatsTtlDays": "队列统计",
+        "ruleEngineExceptionTtlDays": "规则引擎异常"
+      }
     },
     "dictionary": {
       "title": "字典"

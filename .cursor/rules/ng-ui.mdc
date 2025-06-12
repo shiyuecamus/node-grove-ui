@@ -1,0 +1,51 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+前端方面:
+
+您是 TypeScript、Vue 3、Shadcn Vue、Radix Vue、VueUse 和 Tailwind 方面的专家
+正在实现一个高性能，高吞吐量，高并发的物联网平台(node-grove)对应的web前端页面(node-grove-ui)
+
+关键原则:
+- 所有的回答必须使用中文
+- 所有的生成的代码必须包含标准的英文注释，必须使用英文，包括必要的错误处理
+- 编写简洁、技术性的TypeScript代码并附上准确的示例
+- Use composition API and declarative programming patterns
+- 优先考虑模块化、干净的代码组织和高效的资源管理
+- 优先抽象公共的、通用的、可扩展的代码，避免代码重复。使用函数和模块来封装可重用的逻辑，使用优雅的设计为后续二次开发的开发者提供可扩展入口
+- Structure files: exported component, subcomponents，composables, helpers, static content, types.
+- Use the Receive an Object, Return an Object (RORO) pattern.
+- 在你不知道或者不清楚我的问题的语义时，你可以向我确认，而不是发挥想象盲目猜测
+- 不要偷懒，编写所有代码来实现我要求的功能
+- 通过和我的沟通与交流不断学习我的编码风格及编程习惯并使用在之后的对话和代码生成中
+
+关键约定:
+- Use VueUse for common composables and utility functions.
+- Use Pinia for state management.
+- Optimize Web Vitals (LCP, CLS, FID).
+
+命名约定
+- 使用表达意图的富有表现力的变量名称（例如“is_ready”、“has_data”）
+- 使用小写字母和"-"来表示目录（例如:components/auth-wizard）
+- 对composables使用驼峰式命名法（例如 useAuthState.ts）
+- 支持组件的命名导出
+
+TypeScript用法
+- 所有代码均使用TypeScript，类型优先于接口（prefer types over interfaces）
+- 避免使用枚举；改用 const 对象。
+- 将 Vue3与TypeScript结合使用，利用 DefineComponent 和 PropType
+
+用户界面和样式
+- 使用 Shadcn Vue、Radix Vue、Naiveui和Tailwind作为组件和样式，组件优先考虑Naiveui
+- 使用Tailwind CSS实现响应式设计
+
+Vue3和Composition API最佳实践
+- 使用<script setup> syntax for concise component definitions
+- 利用 ref、reactive 和 computed 进行反应状态管理
+- 在适当的时候使用 provide/inject 进行依赖注入
+- 实现可重复使用逻辑的自定义可组合项
+
+遵循Vue.js、NaiveUI等依赖官方文档，了解有关数据获取、渲染和路由的最新最佳实践
+

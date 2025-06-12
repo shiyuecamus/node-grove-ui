@@ -39,10 +39,135 @@
     "tenantPackage": {
       "title": "Tenant Package",
       "name": "Name",
-      "baseInfo": "Base Info",
-      "configInfo": "Config Info",
-      "baseInfoDescription": "Please fill in the base information",
-      "configInfoDescription": "Please fill in the configuration information"
+      "description": "Description",
+      "baseInfo": "Base",
+      "limitsInfo": "Limits",
+      "baseInfoDescription": "Tenant base information",
+      "limitsInfoDescription": "Resource limits、rate limits、etc.",
+      "limitsDescription": "0 - Unlimited",
+      "queueInfo": {
+        "title": "Queue",
+        "description": "Queue information configuration",
+        "name": "Name",
+        "topic": "Topic",
+        "pollInterval": "Poll Interval",
+        "partitions": "Partitions",
+        "packageProcessingTimeout": "Package Processing Timeout",
+        "submitStrategy": {
+          "title": "Submit Strategy",
+          "immediate": "Immediate",
+          "delayed": "Delayed",
+          "batch": "Batch",
+          "burst": "Burst",
+          "sequential": "Sequential",
+          "sequentialByOriginator": "Sequential By Originator",
+          "sequentialByTenant": "Sequential By Tenant"
+        },
+        "submitBatchSize": "Submit Batch Size",
+        "retryStrategy": {
+          "type": "Retry Strategy",
+          "retries": "Retries",
+          "failurePercentage": "Failure Percentage",
+          "pauseBetweenRetries": "Pause Between Retries",
+          "maxPauseBetweenRetries": "Max Pause Between Retries",
+          "retryAll": "Retry All",
+          "retryFailed": "Retry Failed",
+          "retryFailedAndTimeout": "Retry Failed And Timeout",
+          "retryTimeout": "Retry Timeout",
+          "skipAllFailed": "Skip All Failed",
+          "skipAllFailedAndTimeout": "Skip All Failed And Timeout"
+        },
+        "group": {
+          "basicInfo": "Basic Info",
+          "submitSettings": "Submit Settings",
+          "retrySettings": "Retry Settings",
+          "pollingSettings": "Polling Settings"
+        }
+      },
+      "resourceLimits": {
+        "title": "Resource Limits",
+        "maxDevices": "Max Devices",
+        "maxUsers": "Max Users",
+        "maxTenants": "Max Tenants",
+        "maxAssets": "Max Assets",
+        "maxDepts": "Max Depts",
+        "maxRoles": "Max Roles",
+        "maxDrivers": "Max Drivers",
+        "maxDriversSizeInBytes": "Max Drivers Size",
+        "maxSms": "Max Sms",
+        "maxAlarms": "Max Alarms",
+        "maxProducts": "Max Products",
+        "maxDashboards": "Max Dashboards",
+        "maxRuleChains": "Max Rule Chains",
+        "maxResources": "Max Resources",
+        "maxResourcesInBytes": "Max Resources Size",
+        "maxOtaPackages": "Max Ota Packages",
+        "maxOtaPackagesSizeInBytes": "Max Ota Packages Size"
+      },
+      "transportLimits": {
+        "title": "Transport Limits",
+        "tenantMessageRateLimit": "Tenant Message Rate Limit",
+        "tenantTelemetryMessageRateLimit": "Tenant Telemetry Message Rate Limit",
+        "tenantTelemetryDataPointsRateLimit": "Tenant Telemetry Data Points Rate Limit",
+        "deviceMessageRateLimit": "Device Message Rate Limit",
+        "deviceTelemetryMessageRateLimit": "Device Telemetry Message Rate Limit",
+        "deviceTelemetryDataPointsRateLimit": "Device Telemetry Data Points Rate Limit",
+        "gatewayMessageRateLimit": "Gateway Message Rate Limit",
+        "gatewayTelemetryMessageRateLimit": "Gateway Telemetry Message Rate Limit",
+        "gatewayTelemetryDataPointsRateLimit": "Gateway Telemetry Data Points Rate Limit",
+        "gatewayDeviceMessageRateLimit": "Gateway Device Message Rate Limit",
+        "gatewayDeviceTelemetryMessageRateLimit": "Gateway Device Telemetry Message Rate Limit",
+        "gatewayDeviceTelemetryDataPointsRateLimit": "Gateway Device Telemetry Data Points Rate Limit"
+      },
+      "apiLimits": {
+        "title": "API Limits",
+        "tenantServerRestRateLimit": "Tenant Server Rest Rate Limit",
+        "deptServerRestRateLimit": "Dept Server Rest Rate Limit",
+        "telemetryDbQueryRateLimit": "Telemetry DB Query Rate Limit"
+      },
+      "executionLimits": {
+        "title": "Rule Engine Execution Limits",
+        "maxRuleEngine": "Max Rule Engine",
+        "maxJs": "Max JS",
+        "maxRuleNodePerMessage": "Max Rule Nodes Per Message",
+        "maxMessages": "Max Messages",
+        "maxDataPoints": "Max Data Points"
+      },
+      "notificationLimits": {
+        "title": "Notification Limits",
+        "tenantRequestsRateLimit": "Tenant Requests Rate Limit",
+        "tenantRequestsPerRuleRateLimit": "Tenant Requests Per Rule Rate Limit",
+        "maxEmails": "Max Emails",
+        "smsEnabled": "SMS Enabled"
+      },
+      "websocketLimits": {
+        "title": "WebSocket Limits",
+        "maxSessionsPerTenant": "Max Sessions Per Tenant",
+        "maxSessionsPerDept": "Max Sessions Per Dept",
+        "maxSessionsPerRegularUser": "Max Sessions Per Regular User",
+        "maxSessionsPerPublicUser": "Max Sessions Per Public User",
+        "messageQueueLimitPerSession": "Message Queue Limit Per Session",
+        "maxSubscriptionsPerTenant": "Max Subscriptions Per Tenant",
+        "maxSubscriptionsPerDept": "Max Subscriptions Per Dept",
+        "maxSubscriptionsPerRegularUser": "Max Subscriptions Per Regular User",
+        "maxSubscriptionsPerPublicUser": "Max Subscriptions Per Public User",
+        "updatesPerSessionRateLimit": "Updates Per Session Rate Limit"
+      },
+      "edgeLimit": {
+        "title": "Edge Limits",
+        "eventRateLimit": "Event Rate Limit",
+        "eventRateLimitPerEdge": "Event Rate Limit Per Edge",
+        "uplinkMessageRateLimit": "Uplink Message Rate Limit",
+        "uplinkMessageRateLimitPerEdge": "Uplink Message Rate Limit Per Edge"
+      },
+      "storageTtl": {
+        "title": "Storage TTL",
+        "defaultTtlDays": "Default",
+        "alarmsTtlDays": "Alarms",
+        "rpcTtlDays": "RPC",
+        "queueStatsTtlDays": "Queue Stats",
+        "ruleEngineExceptionTtlDays": "Rule Engine Exception"
+      }
     },
     "dictionary": {
       "title": "Dictionary"

@@ -1,23 +1,26 @@
 import { TagColor } from './color';
 
-export enum CommonStatus {
+export const CommonStatus = {
   /**
    * 禁用
    */
-  DISABLED = 1,
+  DISABLED: 1,
   /**
    * 正常
    */
-  ENABLED = 0,
-}
+  ENABLED: 0,
+} as const;
 
-export const CommonStatusTrans: Map<CommonStatus, string> = new Map([
+export const CommonStatusTrans: Map<
+  (typeof CommonStatus)[keyof typeof CommonStatus],
+  string
+> = new Map([
   [CommonStatus.DISABLED, 'common.status.disabled'],
   [CommonStatus.ENABLED, 'common.status.enabled'],
 ]);
 
 export const CommonStatusColor: Map<
-  CommonStatus,
+  (typeof CommonStatus)[keyof typeof CommonStatus],
   { borderColor: string; color: string; textColor: string }
 > = new Map([
   [CommonStatus.DISABLED, TagColor.Magenta],
@@ -106,7 +109,7 @@ interface StatusInfo {
   /**
    * 状态
    */
-  status?: CommonStatus;
+  status?: (typeof CommonStatus)[keyof typeof CommonStatus];
 }
 
 /** 联系信息 */

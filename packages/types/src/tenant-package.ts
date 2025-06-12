@@ -1,5 +1,7 @@
 import type { BaseEntity, StatusInfo } from './base';
 
+import { TagColor } from './color';
+
 // RateLimit interface
 interface RateLimit {
   /**
@@ -13,22 +15,109 @@ interface RateLimit {
 }
 
 // SubmitStrategy enum
-enum SubmitStrategy {
-  Batch = 'Batch',
-  Burst = 'Burst',
-  Sequential = 'Sequential',
-  SequentialByOriginator = 'SequentialByOriginator',
-  SequentialByTenant = 'SequentialByTenant',
-}
+export const SubmitStrategyType = {
+  Batch: 'Batch',
+  Burst: 'Burst',
+  Sequential: 'Sequential',
+  SequentialByOriginator: 'SequentialByOriginator',
+  SequentialByTenant: 'SequentialByTenant',
+} as const;
 
-// ProcessingStrategy enum
-enum ProcessingStrategy {
-  RetryAll = 'RetryAll',
-  RetryFailed = 'RetryFailed',
-  RetryFailedAndTimeout = 'RetryFailedAndTimeout',
-  RetryTimeout = 'RetryTimeout',
-  SkipAllFailed = 'SkipAllFailed',
-  SkipAllFailedAndTimeout = 'SkipAllFailedAndTimeout',
+export const SubmitStrategyTypeTrans: Map<
+  (typeof SubmitStrategyType)[keyof typeof SubmitStrategyType],
+  string
+> = new Map([
+  [
+    SubmitStrategyType.Batch,
+    'page.system.tenantPackage.queueInfo.submitStrategy.batch',
+  ],
+  [
+    SubmitStrategyType.Burst,
+    'page.system.tenantPackage.queueInfo.submitStrategy.burst',
+  ],
+  [
+    SubmitStrategyType.Sequential,
+    'page.system.tenantPackage.queueInfo.submitStrategy.sequential',
+  ],
+  [
+    SubmitStrategyType.SequentialByOriginator,
+    'page.system.tenantPackage.queueInfo.submitStrategy.sequentialByOriginator',
+  ],
+  [
+    SubmitStrategyType.SequentialByTenant,
+    'page.system.tenantPackage.queueInfo.submitStrategy.sequentialByTenant',
+  ],
+]);
+
+export const SubmitStrategyTypeColor: Map<
+  (typeof SubmitStrategyType)[keyof typeof SubmitStrategyType],
+  { borderColor: string; color: string; textColor: string }
+> = new Map([
+  [SubmitStrategyType.Batch, TagColor.Cyan],
+  [SubmitStrategyType.Burst, TagColor.Blue],
+  [SubmitStrategyType.Sequential, TagColor.Green],
+  [SubmitStrategyType.SequentialByOriginator, TagColor.Purple],
+  [SubmitStrategyType.SequentialByTenant, TagColor.Orange],
+]);
+
+// ProcessingStrategyType enum
+export const RetryStrategyType = {
+  RetryAll: 'RetryAll',
+  RetryFailed: 'RetryFailed',
+  RetryFailedAndTimeout: 'RetryFailedAndTimeout',
+  RetryTimeout: 'RetryTimeout',
+  SkipAllFailed: 'SkipAllFailed',
+  SkipAllFailedAndTimeout: 'SkipAllFailedAndTimeout',
+} as const;
+
+export const RetryStrategyTypeTrans: Map<
+  (typeof RetryStrategyType)[keyof typeof RetryStrategyType],
+  string
+> = new Map([
+  [
+    RetryStrategyType.RetryAll,
+    'page.system.tenantPackage.queueInfo.retryStrategy.retryAll',
+  ],
+  [
+    RetryStrategyType.RetryFailed,
+    'page.system.tenantPackage.queueInfo.retryStrategy.retryFailed',
+  ],
+  [
+    RetryStrategyType.RetryFailedAndTimeout,
+    'page.system.tenantPackage.queueInfo.retryStrategy.retryFailedAndTimeout',
+  ],
+  [
+    RetryStrategyType.RetryTimeout,
+    'page.system.tenantPackage.queueInfo.retryStrategy.retryTimeout',
+  ],
+  [
+    RetryStrategyType.SkipAllFailed,
+    'page.system.tenantPackage.queueInfo.retryStrategy.skipAllFailed',
+  ],
+  [
+    RetryStrategyType.SkipAllFailedAndTimeout,
+    'page.system.tenantPackage.queueInfo.retryStrategy.skipAllFailedAndTimeout',
+  ],
+]);
+
+export const RetryStrategyTypeColor: Map<
+  (typeof RetryStrategyType)[keyof typeof RetryStrategyType],
+  { borderColor: string; color: string; textColor: string }
+> = new Map([
+  [RetryStrategyType.RetryAll, TagColor.Cyan],
+  [RetryStrategyType.RetryFailed, TagColor.Blue],
+  [RetryStrategyType.RetryFailedAndTimeout, TagColor.Green],
+  [RetryStrategyType.RetryTimeout, TagColor.Purple],
+  [RetryStrategyType.SkipAllFailed, TagColor.Orange],
+  [RetryStrategyType.SkipAllFailedAndTimeout, TagColor.Red],
+]);
+
+interface RetryStrategy {
+  type: (typeof RetryStrategyType)[keyof typeof RetryStrategyType];
+  retries: number;
+  failurePercentage: number;
+  pauseBetweenRetries: number;
+  maxPauseBetweenRetries: number;
 }
 
 // ResourceLimits interface
@@ -149,14 +238,6 @@ interface TransportLimits {
 
 // ApiLimits interface
 interface ApiLimits {
-  /**
-   * 租户实体导出速率限制
-   */
-  tenantEntityExportRateLimit?: RateLimit[];
-  /**
-   * 租户实体导入速率限制
-   */
-  tenantEntityImportRateLimit?: RateLimit[];
   /**
    * 租户服务器REST速率限制
    */
@@ -320,7 +401,7 @@ interface QueueConfiguration {
   /**
    * 提交策略
    */
-  submitStrategy: SubmitStrategy;
+  submitStrategy: (typeof SubmitStrategyType)[keyof typeof SubmitStrategyType];
   /**
    * 提交批量大小
    */
@@ -328,7 +409,7 @@ interface QueueConfiguration {
   /**
    * 处理策略
    */
-  processingStrategy: ProcessingStrategy;
+  retryStrategy: RetryStrategy;
 }
 
 // TenantPackageData interface
@@ -378,6 +459,10 @@ interface TenantPackageInfo extends BaseEntity, StatusInfo {
    */
   name?: string;
   /**
+   * 描述
+   */
+  description?: string;
+  /**
    * 套餐数据
    */
   packageData: TenantPackageData;
@@ -399,6 +484,7 @@ export type {
   QueueConfiguration,
   RateLimit,
   ResourceLimits,
+  RetryStrategy,
   StorageTtl,
   TenantPackageData,
   TenantPackageInfo,
@@ -406,5 +492,3 @@ export type {
   TransportLimits,
   WebsocketLimits,
 };
-
-export { ProcessingStrategy, SubmitStrategy };
