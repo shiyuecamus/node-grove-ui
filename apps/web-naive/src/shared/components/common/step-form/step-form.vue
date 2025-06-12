@@ -217,6 +217,7 @@ const showSubmitButton = computed(
   .n-step .n-step-indicator {
     background-color: transparent !important;
   }
+
   .n-step-content {
     .n-step-content__description {
       font-size: 12px;
