@@ -46,6 +46,7 @@ export const notificationLimitsSchema: VbenFormSchema = createFormSection({
       component: 'InputNumber',
       componentProps: {
         min: 0,
+        defaultValue: 0,
         placeholder: $t('ui.placeholder.inputWithName', {
           name: $t('page.system.tenantPackage.notificationLimits.maxEmails'),
         }),
@@ -58,11 +59,10 @@ export const notificationLimitsSchema: VbenFormSchema = createFormSection({
       component: 'Switch',
     },
   ],
-  rules: z
-    .object({
-      maxEmails: createNumberValidation(
-        'page.system.tenantPackage.notificationLimits.maxEmails',
-      ),
-    })
-    .optional(),
+  rules: z.object({
+    maxEmails: createNumberValidation(
+      $t('page.system.tenantPackage.notificationLimits.maxEmails'),
+    ),
+    smsEnabled: z.boolean().default(true),
+  }),
 });

@@ -159,12 +159,9 @@ export class FormApi {
 
   async getValues<T = Recordable<any>>() {
     const form = await this.getForm();
-    let values = form.values ? this.handleRangeTimeValue(form.values) : {};
-
+    const values = form.values ? this.handleRangeTimeValue(form.values) : {};
     // 处理扁平化字段
-    values = this.handleFlattenFields(values);
-
-    return values as T;
+    return this.handleFlattenFields(values) as T;
   }
 
   async isFieldValid(fieldName: string) {
@@ -498,13 +495,10 @@ export class FormApi {
         if (startTimeKey && endTimeKey && values[field] === null) {
           Reflect.deleteProperty(values, startTimeKey);
           Reflect.deleteProperty(values, endTimeKey);
-          // delete values[startTimeKey];
-          // delete values[endTimeKey];
         }
 
         if (!values[field]) {
           Reflect.deleteProperty(values, field);
-          // delete values[field];
           return;
         }
 
@@ -527,7 +521,6 @@ export class FormApi {
             ? formatDate(endTime, endTimeFormat)
             : undefined;
         }
-        // delete values[field];
         Reflect.deleteProperty(values, field);
       },
     );
@@ -640,7 +633,7 @@ export class FormApi {
     const getNestedValue = (obj: Record<string, any>, path: string[]): any => {
       let current = obj;
       for (const key of path) {
-        if (!current || isObject(current) || !key) return undefined;
+        if (!current || !isObject(current) || !key) return undefined;
         current = current[key];
       }
       return current;

@@ -1619,9 +1619,6 @@ importers:
       '@vben-core/composables':
         specifier: workspace:*
         version: link:../../@core/composables
-      '@vben/locales':
-        specifier: workspace:*
-        version: link:../../locales
       '@vben/preferences':
         specifier: workspace:*
         version: link:../../preferences

@@ -215,29 +215,28 @@ const handleUpdateStatus = async (row: RowType, value: boolean) => {
 
 const handleFormSubmit = async (
   type: FormOpenType,
+  id: number | string | undefined,
   values: Record<string, any>,
 ) => {
-  if (type === FormOpenType.CREATE) {
-    handleRequest(
-      () => createTenantPackage(values as TenantPackageInfo),
-      (_) => {
-        message.success($t('common.action.createSuccess'));
-      },
-      (_: any) => {
-        message.error($t('common.action.createFail'));
-      },
-    );
-  } else {
-    handleRequest(
-      () => updateTenantPackage(values as TenantPackageInfoWithId),
-      (_) => {
-        message.success($t('common.action.updateSuccess'));
-      },
-      (_: any) => {
-        message.error($t('common.action.updateFail'));
-      },
-    );
-  }
+  await (type === FormOpenType.CREATE
+    ? handleRequest(
+        () => createTenantPackage(values as TenantPackageInfo),
+        (_) => {
+          message.success($t('common.action.createSuccess'));
+        },
+        (_: any) => {
+          message.error($t('common.action.createFail'));
+        },
+      )
+    : handleRequest(
+        () => updateTenantPackage({ id, ...values } as TenantPackageInfoWithId),
+        (_) => {
+          message.success($t('common.action.updateSuccess'));
+        },
+        (_: any) => {
+          message.error($t('common.action.updateFail'));
+        },
+      ));
   await gridApi.query();
 };
 </script>

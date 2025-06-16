@@ -43,7 +43,7 @@ export interface StepFormProps<
   current?: number;
   forms: VbenFormProps<T>[];
   onComplete?: (allValues: any) => void;
-  onStepChange?: (current: number, values: Record<number, any>) => void;
+  onStepChange?: (current: number, values: Record<string, any>) => void;
   resetButtonOptions?: Record<string, any>;
   showSteps?: boolean;
   /** Custom stepper component configurations */

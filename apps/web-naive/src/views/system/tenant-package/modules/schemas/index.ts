@@ -1,7 +1,7 @@
 import type { VbenFormProps } from '@vben/common-ui';
 
 import { apiLimitsSchema } from './api-limits';
-import { baseInfoSchema } from './base-info';
+import { basicInfoSchema } from './basic-info';
 import { edgeLimitsSchema } from './edge-limits';
 import { executionLimitsSchema } from './execution-limits';
 import { notificationLimitsSchema } from './notification-limits';
@@ -30,7 +30,7 @@ const limitsSchema: VbenFormProps = {
 };
 
 export const forms: VbenFormProps[] = [
-  baseInfoSchema,
+  basicInfoSchema,
   limitsSchema,
   queueSchema,
 ];

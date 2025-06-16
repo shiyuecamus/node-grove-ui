@@ -175,23 +175,39 @@ export const websocketLimitsSchema: VbenFormSchema = createFormSection({
       }),
     },
   ],
-  rules: z
-    .object({
-      maxSessionsPerTenant: createNumberValidation(
-        'page.system.tenantPackage.websocketLimits.maxSessionsPerTenant',
+  rules: z.object({
+    maxSessionsPerTenant: createNumberValidation(
+      $t('page.system.tenantPackage.websocketLimits.maxSessionsPerTenant'),
+    ),
+    maxSessionsPerDept: createNumberValidation(
+      $t('page.system.tenantPackage.websocketLimits.maxSessionsPerDept'),
+    ),
+    maxSubscriptionsPerTenant: createNumberValidation(
+      $t('page.system.tenantPackage.websocketLimits.maxSubscriptionsPerTenant'),
+    ),
+    maxSubscriptionsPerDept: createNumberValidation(
+      $t('page.system.tenantPackage.websocketLimits.maxSubscriptionsPerDept'),
+    ),
+    maxSessionsPerRegularUser: createNumberValidation(
+      $t('page.system.tenantPackage.websocketLimits.maxSessionsPerRegularUser'),
+    ),
+    maxSessionsPerPublicUser: createNumberValidation(
+      $t('page.system.tenantPackage.websocketLimits.maxSessionsPerPublicUser'),
+    ),
+    messageQueueLimitPerSession: createNumberValidation(
+      $t(
+        'page.system.tenantPackage.websocketLimits.messageQueueLimitPerSession',
       ),
-      maxSessionsPerDept: createNumberValidation(
-        'page.system.tenantPackage.websocketLimits.maxSessionsPerDept',
+    ),
+    maxSubscriptionsPerRegularUser: createNumberValidation(
+      $t(
+        'page.system.tenantPackage.websocketLimits.maxSubscriptionsPerRegularUser',
       ),
-      maxSessionsPerRegularUser: createNumberValidation(
-        'page.system.tenantPackage.websocketLimits.maxSessionsPerRegularUser',
-      ),
-      maxSubscriptionsPerTenant: createNumberValidation(
-        'page.system.tenantPackage.websocketLimits.maxSubscriptionsPerTenant',
-      ),
-      maxSubscriptionsPerPublicUser: createNumberValidation(
+    ),
+    maxSubscriptionsPerPublicUser: createNumberValidation(
+      $t(
         'page.system.tenantPackage.websocketLimits.maxSubscriptionsPerPublicUser',
       ),
-    })
-    .optional(),
+    ),
+  }),
 });

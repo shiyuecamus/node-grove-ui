@@ -39,6 +39,7 @@ export const executionLimitsSchema: VbenFormSchema = createFormSection({
       component: 'InputNumber',
       componentProps: {
         min: 0,
+        defaultValue: 0,
         placeholder: $t('ui.placeholder.inputWithName', {
           name: $t('page.system.tenantPackage.executionLimits.maxMessages'),
         }),
@@ -88,20 +89,21 @@ export const executionLimitsSchema: VbenFormSchema = createFormSection({
       rules: 'required',
     },
   ],
-  rules: z
-    .object({
-      maxRuleEngine: createNumberValidation(
-        'page.system.tenantPackage.executionLimits.maxRuleEngine',
-      ),
-      maxMessages: createNumberValidation(
-        'page.system.tenantPackage.executionLimits.maxMessages',
-      ),
-      maxDataPoints: createNumberValidation(
-        'page.system.tenantPackage.executionLimits.maxDataPoints',
-      ),
-      maxJs: createNumberValidation(
-        'page.system.tenantPackage.executionLimits.maxJs',
-      ),
-    })
-    .optional(),
+  rules: z.object({
+    maxRuleEngine: createNumberValidation(
+      $t('page.system.tenantPackage.executionLimits.maxRuleEngine'),
+    ),
+    maxMessages: createNumberValidation(
+      $t('page.system.tenantPackage.executionLimits.maxMessages'),
+    ),
+    maxDataPoints: createNumberValidation(
+      $t('page.system.tenantPackage.executionLimits.maxDataPoints'),
+    ),
+    maxJs: createNumberValidation(
+      $t('page.system.tenantPackage.executionLimits.maxJs'),
+    ),
+    maxRuleNodePerMessage: createNumberValidation(
+      $t('page.system.tenantPackage.executionLimits.maxRuleNodePerMessage'),
+    ),
+  }),
 });

@@ -1,6 +1,10 @@
 import type { Component } from 'vue';
 
-import type { FormCommonConfig, VbenFormSchema } from '@vben/common-ui';
+import type {
+  FormCommonConfig,
+  FormSchemaRuleType,
+  VbenFormSchema,
+} from '@vben/common-ui';
 
 export interface SubFormProps {
   /**
@@ -116,6 +120,11 @@ export interface CreateFormSectionOptions {
   advancedSchemas?: VbenFormSchema[];
 
   /**
+   * Default value for the form section
+   */
+  defaultValue?: any;
+
+  /**
    * Extra content to display in the header
    */
   extra?: Component | string;
@@ -123,5 +132,5 @@ export interface CreateFormSectionOptions {
   /**
    * Form validation rules
    */
-  rules?: any;
+  rules?: FormSchemaRuleType;
 }

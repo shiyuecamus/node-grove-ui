@@ -37,7 +37,11 @@ const formRef = ref();
 watch(
   modelValue,
   async (newVal) => {
-    if (!isEmpty(newVal)) {
+    if (isEmpty(newVal)) {
+      await nextTick();
+      gridApi.setGridOptions({ data: [] });
+      await gridApi.query();
+    } else {
       await nextTick();
       gridApi.setGridOptions({ data: newVal });
       await gridApi.query();
@@ -45,6 +49,7 @@ watch(
   },
   {
     immediate: true,
+    deep: true,
   },
 );
 
@@ -154,7 +159,8 @@ const handleFormSubmit = (
     modelValue.value = newData;
   } else {
     // 添加模式 - 创建新记录
-    modelValue.value = [...modelValue.value, values];
+    const newData = [...modelValue.value, values];
+    modelValue.value = newData;
   }
   formRef.value?.close();
 };

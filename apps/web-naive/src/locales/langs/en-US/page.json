@@ -40,9 +40,9 @@
       "title": "Tenant Package",
       "name": "Name",
       "description": "Description",
-      "baseInfo": "Base",
+      "basicInfo": "Basic",
       "limitsInfo": "Limits",
-      "baseInfoDescription": "Tenant base information",
+      "basicInfoDescription": "Tenant base information",
       "limitsInfoDescription": "Resource limits、rate limits、etc.",
       "limitsDescription": "0 - Unlimited",
       "queueInfo": {

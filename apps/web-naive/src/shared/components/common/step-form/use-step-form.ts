@@ -32,7 +32,8 @@ export function useStepForm(options: StepFormProps) {
   api.nextStep = async () => {
     await originalNextStep.call(api);
     if (options.onStepChange) {
-      options.onStepChange(api.state.current, api.state.formValues);
+      const values = await api.getStepValues();
+      options.onStepChange(api.state.current, values);
     }
   };
 
@@ -40,7 +41,8 @@ export function useStepForm(options: StepFormProps) {
   api.prevStep = async () => {
     await originalPrevStep.call(api);
     if (options.onStepChange) {
-      options.onStepChange(api.state.current, api.state.formValues);
+      const values = await api.getStepValues();
+      options.onStepChange(api.state.current, values);
     }
   };
 
@@ -48,14 +50,15 @@ export function useStepForm(options: StepFormProps) {
   api.goToStep = async (step: number) => {
     await originalGoToStep.call(api, step);
     if (options.onStepChange) {
-      options.onStepChange(api.state.current, api.state.formValues);
+      const values = await api.getStepValues();
+      options.onStepChange(api.state.current, values);
     }
   };
 
   // Add completion callback
   const originalSubmitAllForms = api.submitAllForms;
-  api.submitAllForms = async (merge = true) => {
-    const result = await originalSubmitAllForms.call(api, merge);
+  api.submitAllForms = async () => {
+    const result = await originalSubmitAllForms.call(api);
     if (result && options.onComplete) {
       options.onComplete(result);
     }

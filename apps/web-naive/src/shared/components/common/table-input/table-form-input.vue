@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import type { TableFormInputProps } from './types';
 
-import { ref } from 'vue';
+import { nextTick, ref } from 'vue';
 
 import { useVbenForm, useVbenModal } from '@vben/common-ui';
 import { FormOpenType } from '@vben/constants';
@@ -37,6 +37,7 @@ const [Modal, modalApi] = useVbenModal({
   class: props.modalClass,
   onOpenChange: async (isOpen) => {
     if (isOpen) {
+      await nextTick();
       const data = modalApi.getData<{
         index: number;
         record?: Record<string, any>;
@@ -52,13 +53,15 @@ const [Modal, modalApi] = useVbenModal({
             ? props.editModalTitle
             : props.addModalTitle,
       });
+
       if (type.value === FormOpenType.EDIT && data.record) {
+        // 编辑模式 - 应用现有记录的值
         formApi.setValues(data.record);
         formData.value = data.record;
       } else {
-        // 清空表单
+        // 创建模式 - 重置表单以应用默认值
         formApi.resetForm();
-        formData.value = {};
+        formData.value = {}; // 只是用于状态跟踪
       }
     }
   },

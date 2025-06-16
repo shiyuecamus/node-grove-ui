@@ -91,20 +91,21 @@ export const storageTtlSchema: VbenFormSchema = createFormSection({
       rules: 'required',
     },
   ],
-  rules: z
-    .object({
-      defaultTtlDays: createNumberValidation(
-        'page.system.tenantPackage.storageTtl.defaultTtlDays',
-      ),
-      rpcTtlDays: createNumberValidation(
-        'page.system.tenantPackage.storageTtl.rpcTtlDays',
-      ),
-      queueStatsTtlDays: createNumberValidation(
-        'page.system.tenantPackage.storageTtl.queueStatsTtlDays',
-      ),
-      ruleEngineExceptionTtlDays: createNumberValidation(
-        'page.system.tenantPackage.storageTtl.ruleEngineExceptionTtlDays',
-      ),
-    })
-    .optional(),
+  rules: z.object({
+    defaultTtlDays: createNumberValidation(
+      $t('page.system.tenantPackage.storageTtl.defaultTtlDays'),
+    ),
+    alarmsTtlDays: createNumberValidation(
+      $t('page.system.tenantPackage.storageTtl.alarmsTtlDays'),
+    ),
+    rpcTtlDays: createNumberValidation(
+      $t('page.system.tenantPackage.storageTtl.rpcTtlDays'),
+    ),
+    queueStatsTtlDays: createNumberValidation(
+      $t('page.system.tenantPackage.storageTtl.queueStatsTtlDays'),
+    ),
+    ruleEngineExceptionTtlDays: createNumberValidation(
+      $t('page.system.tenantPackage.storageTtl.ruleEngineExceptionTtlDays'),
+    ),
+  }),
 });

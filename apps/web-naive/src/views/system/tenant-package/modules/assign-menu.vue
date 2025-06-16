@@ -16,7 +16,7 @@ import { $t } from '@vben/locales';
 
 import { NSpin, NTransfer } from 'naive-ui';
 
-import { getAllMenusApi } from '#/api/core/menu';
+import { getAllMenus } from '#/api/core/menu';
 import { getTenantPackageMenuIds } from '#/api/core/tenant-package';
 
 interface IconTransferOption extends TransferOption {
@@ -82,7 +82,7 @@ const [Modal, modalApi] = useVbenModal({
         packageId.value = pkgId;
 
         // Obtener los datos del árbol
-        treeData.value = await getAllMenusApi();
+        treeData.value = await getAllMenus();
 
         // Generar el array plano de opciones para el transfer
         options.value = flattenTree(treeData.value);

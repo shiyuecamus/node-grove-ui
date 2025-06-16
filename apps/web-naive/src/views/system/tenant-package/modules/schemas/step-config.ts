@@ -14,11 +14,11 @@ export const stepConfigs = [
         size: '14',
       },
       {
-        default: () => $t('page.system.tenantPackage.baseInfo'),
+        default: () => $t('page.system.tenantPackage.basicInfo'),
       },
     ),
     icon: 'lucide:info',
-    description: $t('page.system.tenantPackage.baseInfoDescription'),
+    description: $t('page.system.tenantPackage.basicInfoDescription'),
   },
   {
     title: h(

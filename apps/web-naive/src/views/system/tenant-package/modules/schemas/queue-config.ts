@@ -197,15 +197,11 @@ export const queueFormSchema: VbenFormSchema[] = [
         'page.system.tenantPackage.queueInfo.submitStrategy.title',
         SubmitStrategyType.Batch,
       ),
-      submitBatchSize: z
-        .number()
-        .min(1, {
-          message: $t('common.validation.required', {
-            field: $t('page.system.tenantPackage.queueInfo.submitBatchSize'),
-          }),
-        })
-        .default(1000)
-        .optional(),
+      submitBatchSize: createNumberValidation(
+        'page.system.tenantPackage.queueInfo.submitBatchSize',
+        1000,
+        1,
+      ).optional(),
     }),
   },
   {
@@ -352,54 +348,26 @@ export const queueFormSchema: VbenFormSchema[] = [
       ],
     },
     rules: z.object({
-      type: z
-        .string()
-        .nonempty({
-          message: $t('common.validation.required', {
-            field: $t('page.system.tenantPackage.queueInfo.retryStrategy.type'),
-          }),
-        })
-        .default(RetryStrategyType.RetryAll),
-      retries: z
-        .number()
-        .min(0, {
-          message: $t('common.validation.required', {
-            field: $t(
-              'page.system.tenantPackage.queueInfo.retryStrategy.retries',
-            ),
-          }),
-        })
-        .default(3),
-      failurePercentage: z
-        .number()
-        .min(0, {
-          message: $t('common.validation.required', {
-            field: $t(
-              'page.system.tenantPackage.queueInfo.retryStrategy.failurePercentage',
-            ),
-          }),
-        })
-        .default(0),
-      pauseBetweenRetries: z
-        .number()
-        .min(0, {
-          message: $t('common.validation.required', {
-            field: $t(
-              'page.system.tenantPackage.queueInfo.retryStrategy.pauseBetweenRetries',
-            ),
-          }),
-        })
-        .default(3),
-      maxPauseBetweenRetries: z
-        .number()
-        .min(0, {
-          message: $t('common.validation.required', {
-            field: $t(
-              'page.system.tenantPackage.queueInfo.retryStrategy.maxPauseBetweenRetries',
-            ),
-          }),
-        })
-        .default(3),
+      type: createRequiredStringValidation(
+        'page.system.tenantPackage.queueInfo.retryStrategy.type',
+        RetryStrategyType.RetryAll,
+      ),
+      retries: createNumberValidation(
+        'page.system.tenantPackage.queueInfo.retryStrategy.retries',
+        3,
+      ),
+      failurePercentage: createNumberValidation(
+        'page.system.tenantPackage.queueInfo.retryStrategy.failurePercentage',
+        0,
+      ),
+      pauseBetweenRetries: createNumberValidation(
+        'page.system.tenantPackage.queueInfo.retryStrategy.pauseBetweenRetries',
+        3,
+      ),
+      maxPauseBetweenRetries: createNumberValidation(
+        'page.system.tenantPackage.queueInfo.retryStrategy.maxPauseBetweenRetries',
+        3,
+      ),
     }),
   },
   {

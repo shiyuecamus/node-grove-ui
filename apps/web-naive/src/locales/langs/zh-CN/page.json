@@ -40,9 +40,9 @@
       "title": "租户套餐",
       "name": "名称",
       "description": "描述",
-      "baseInfo": "基础",
+      "basicInfo": "基础",
       "limitsInfo": "限制",
-      "baseInfoDescription": "租户配置基础信息",
+      "basicInfoDescription": "租户基础信息",
       "limitsInfoDescription": "资源限制、速率限制等",
       "limitsDescription": "0 - 无限制",
       "queueInfo": {

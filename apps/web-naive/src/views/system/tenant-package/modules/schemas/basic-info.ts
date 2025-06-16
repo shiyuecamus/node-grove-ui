@@ -5,7 +5,7 @@ import { $t } from '@vben/locales';
 /**
  * Form schema for basic tenant package information
  */
-export const baseInfoSchema: VbenFormProps = {
+export const basicInfoSchema: VbenFormProps = {
   schema: [
     {
       component: 'Input',

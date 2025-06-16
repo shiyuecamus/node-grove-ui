@@ -44,7 +44,6 @@ export const resourceLimitsSchema: VbenFormSchema = createFormSection({
           name: $t('page.system.tenantPackage.resourceLimits.maxUsers'),
         }),
       },
-      rules: 'required',
     },
     {
       label: $t('page.system.tenantPackage.resourceLimits.maxDrivers'),
@@ -160,7 +159,6 @@ export const resourceLimitsSchema: VbenFormSchema = createFormSection({
           name: $t('page.system.tenantPackage.resourceLimits.maxDashboards'),
         }),
       },
-      rules: 'required',
     },
     {
       label: $t('page.system.tenantPackage.resourceLimits.maxRuleChains'),
@@ -172,7 +170,6 @@ export const resourceLimitsSchema: VbenFormSchema = createFormSection({
           name: $t('page.system.tenantPackage.resourceLimits.maxRuleChains'),
         }),
       },
-      rules: 'required',
     },
     {
       label: $t('page.system.tenantPackage.resourceLimits.maxResources'),
@@ -233,59 +230,57 @@ export const resourceLimitsSchema: VbenFormSchema = createFormSection({
       rules: 'required',
     },
   ],
-  rules: z
-    .object({
-      maxDevices: createNumberValidation(
-        'page.system.tenantPackage.resourceLimits.maxDevices',
-      ),
-      maxUsers: createNumberValidation(
-        'page.system.tenantPackage.resourceLimits.maxUsers',
-      ),
-      maxAssets: createNumberValidation(
-        'page.system.tenantPackage.resourceLimits.maxAssets',
-      ),
-      maxDepts: createNumberValidation(
-        'page.system.tenantPackage.resourceLimits.maxDepts',
-      ),
-      maxRoles: createNumberValidation(
-        'page.system.tenantPackage.resourceLimits.maxRoles',
-      ),
-      maxDrivers: createNumberValidation(
-        'page.system.tenantPackage.resourceLimits.maxDrivers',
-      ),
-      maxProducts: createNumberValidation(
-        'page.system.tenantPackage.resourceLimits.maxProducts',
-      ),
-      maxDashboards: createNumberValidation(
-        'page.system.tenantPackage.resourceLimits.maxDashboards',
-      ),
-      maxRuleChains: createNumberValidation(
-        'page.system.tenantPackage.resourceLimits.maxRuleChains',
-      ),
-      maxResources: createNumberValidation(
-        'page.system.tenantPackage.resourceLimits.maxResources',
-      ),
-      maxDriversSizeInBytes: createNumberValidation(
-        'page.system.tenantPackage.resourceLimits.maxDriversSizeInBytes',
-        52_428_800,
-      ),
-      maxSms: createNumberValidation(
-        'page.system.tenantPackage.resourceLimits.maxSms',
-      ),
-      maxAlarms: createNumberValidation(
-        'page.system.tenantPackage.resourceLimits.maxAlarms',
-      ),
-      maxResourcesInBytes: createNumberValidation(
-        'page.system.tenantPackage.resourceLimits.maxResourcesInBytes',
-        10_485_760,
-      ),
-      maxOtaPackages: createNumberValidation(
-        'page.system.tenantPackage.resourceLimits.maxOtaPackages',
-      ),
-      maxOtaPackagesSizeInBytes: createNumberValidation(
-        'page.system.tenantPackage.resourceLimits.maxOtaPackagesSizeInBytes',
-        52_428_800,
-      ),
-    })
-    .optional(),
+  rules: z.object({
+    maxDevices: createNumberValidation(
+      $t('page.system.tenantPackage.resourceLimits.maxDevices'),
+    ),
+    maxUsers: createNumberValidation(
+      $t('page.system.tenantPackage.resourceLimits.maxUsers'),
+    ),
+    maxDrivers: createNumberValidation(
+      $t('page.system.tenantPackage.resourceLimits.maxDrivers'),
+    ),
+    maxProducts: createNumberValidation(
+      $t('page.system.tenantPackage.resourceLimits.maxProducts'),
+    ),
+    maxAssets: createNumberValidation(
+      $t('page.system.tenantPackage.resourceLimits.maxAssets'),
+    ),
+    maxDepts: createNumberValidation(
+      $t('page.system.tenantPackage.resourceLimits.maxDepts'),
+    ),
+    maxRoles: createNumberValidation(
+      $t('page.system.tenantPackage.resourceLimits.maxRoles'),
+    ),
+    maxDriversSizeInBytes: createNumberValidation(
+      $t('page.system.tenantPackage.resourceLimits.maxDriversSizeInBytes'),
+      52_428_800,
+    ),
+    maxSms: createNumberValidation(
+      $t('page.system.tenantPackage.resourceLimits.maxSms'),
+    ),
+    maxAlarms: createNumberValidation(
+      $t('page.system.tenantPackage.resourceLimits.maxAlarms'),
+    ),
+    maxDashboards: createNumberValidation(
+      $t('page.system.tenantPackage.resourceLimits.maxDashboards'),
+    ),
+    maxRuleChains: createNumberValidation(
+      $t('page.system.tenantPackage.resourceLimits.maxRuleChains'),
+    ),
+    maxResources: createNumberValidation(
+      $t('page.system.tenantPackage.resourceLimits.maxResources'),
+    ),
+    maxResourcesInBytes: createNumberValidation(
+      $t('page.system.tenantPackage.resourceLimits.maxResourcesInBytes'),
+      10_485_760,
+    ),
+    maxOtaPackages: createNumberValidation(
+      $t('page.system.tenantPackage.resourceLimits.maxOtaPackages'),
+    ),
+    maxOtaPackagesSizeInBytes: createNumberValidation(
+      $t('page.system.tenantPackage.resourceLimits.maxOtaPackagesSizeInBytes'),
+      52_428_800,
+    ),
+  }),
 });
