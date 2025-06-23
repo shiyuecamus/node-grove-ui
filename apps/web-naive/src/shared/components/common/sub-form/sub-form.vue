@@ -1,6 +1,8 @@
 <script lang="ts" setup>
 import type { Component, VNode } from 'vue';
 
+import type { Recordable } from '@vben/types';
+
 import type { SubFormProps } from './types';
 
 import type { FormCommonConfig } from '#/adapter/form';
@@ -27,7 +29,7 @@ const props = withDefaults(defineProps<SubFormProps>(), {
 
 const emit = defineEmits(['change', 'blur']);
 
-const modelValue = defineModel<Record<string, any>>({
+const modelValue = defineModel<Recordable<any>>({
   default: () => ({}),
 });
 

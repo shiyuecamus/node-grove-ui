@@ -3,6 +3,8 @@
  */
 export const LOGIN_PATH = '/auth/login';
 
+export const DEFAULT_ROOT_TREE_ID = '00000000-0000-0000-0000-000000000000';
+
 export interface LanguageOption {
   label: string;
   value: 'en-US' | 'zh-CN';
@@ -29,4 +31,9 @@ export const SUPPORT_LANGUAGES: LanguageOption[] = [
 export enum FormOpenType {
   CREATE = 'create',
   EDIT = 'edit',
+}
+
+export interface FormOpenData {
+  id?: number | string;
+  type: FormOpenType;
 }

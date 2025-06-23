@@ -47,6 +47,7 @@ const {
   modelPropName,
   renderComponentContent,
   rules,
+  overflow = 'hidden',
 } = defineProps<
   Props & {
     commonComponentProps: MaybeComponentProps;
@@ -323,7 +324,7 @@ onUnmounted(() => {
           <VbenRenderContent :content="label" />
         </template>
       </FormLabel>
-      <div class="flex-auto overflow-hidden p-[1px]">
+      <div :class="`flex-auto overflow-${overflow} p-[1px]`">
         <div :class="cn('relative flex w-full items-center', wrapperClass)">
           <FormControl :class="cn(controlClass)">
             <slot

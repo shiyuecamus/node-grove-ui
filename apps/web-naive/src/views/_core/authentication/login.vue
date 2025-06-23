@@ -7,7 +7,7 @@ import { AuthenticationLogin, SliderCaptcha, z } from '@vben/common-ui';
 import { $t } from '@vben/locales';
 import { useAccessStore } from '@vben/stores';
 
-import { getCurrentTenantByDomain } from '#/api/core/tenant';
+import { getCurrentTenantByDomain } from '#/api/core';
 import { useAuthStore } from '#/store';
 
 defineOptions({ name: 'Login' });

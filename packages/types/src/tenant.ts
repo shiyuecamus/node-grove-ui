@@ -2,6 +2,7 @@ import type {
   AdditionalInfo,
   BaseEntity,
   ContactInfo,
+  IdType,
   StatusInfo,
 } from './base';
 
@@ -18,11 +19,11 @@ interface TenantInfo
   /**
    * 域名
    */
-  domain?: string;
+  domain?: string[];
   /**
    * 套餐Id
    */
-  packageId?: number | string;
+  packageId?: IdType;
 }
 
 export type { TenantInfo };

@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import type { EntityType, IdType } from '@vben/types';
+
 import type {
   EntityDetailProps,
   EntityDetailTab,
@@ -18,8 +20,8 @@ import { NTabPane, NTabs } from 'naive-ui';
  * 标签内容插槽的参数类型
  */
 interface TabSlotProps {
-  entityId?: number | string;
-  entityType?: string;
+  entityId?: IdType;
+  entityType?: EntityType;
 }
 
 /**

@@ -2,6 +2,7 @@ export type * from './base';
 export * from './base';
 export * from './color';
 export type * from './common';
+export type * from './dept';
 export type * from './driver';
 export * from './driver';
 export type * from './tenant';

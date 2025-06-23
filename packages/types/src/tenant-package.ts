@@ -468,14 +468,6 @@ interface TenantPackageInfo extends BaseEntity, StatusInfo {
   packageData: TenantPackageData;
 }
 
-// TenantPackageInfoWithId interface extends TenantPackageInfo
-interface TenantPackageInfoWithId extends TenantPackageInfo {
-  /**
-   * 套餐Id
-   */
-  id: number | string;
-}
-
 export type {
   ApiLimits,
   EdgeLimit,
@@ -488,7 +480,6 @@ export type {
   StorageTtl,
   TenantPackageData,
   TenantPackageInfo,
-  TenantPackageInfoWithId,
   TransportLimits,
   WebsocketLimits,
 };

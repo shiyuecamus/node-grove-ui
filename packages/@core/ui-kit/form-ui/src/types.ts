@@ -4,7 +4,11 @@ import type { ZodTypeAny } from 'zod';
 import type { Component, HtmlHTMLAttributes, Ref } from 'vue';
 
 import type { VbenButtonProps } from '@vben-core/shadcn-ui';
-import type { ClassType, MaybeComputedRef } from '@vben-core/typings';
+import type {
+  ClassType,
+  MaybeComputedRef,
+  Recordable,
+} from '@vben-core/typings';
 
 import type { FormApi } from './form-api';
 
@@ -16,7 +20,7 @@ export interface SubFormComponent {
     | undefined
     | {
         validate: () => Promise<{
-          errors?: Record<string, string>;
+          errors?: Recordable<string>;
           valid: boolean;
         }>;
       };
@@ -271,6 +275,8 @@ export interface FormSchema<
   help?: CustomRenderType;
   /** 表单项 */
   label?: CustomRenderType;
+  /** 是否隐藏溢出 */
+  overflow?: 'auto' | 'hidden' | 'scroll' | 'visible';
   // 自定义组件内部渲染
   renderComponentContent?: RenderComponentContentType;
   /** 字段规则 */

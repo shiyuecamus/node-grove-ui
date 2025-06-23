@@ -9,6 +9,11 @@ interface CommonPageRequest {
   pageSize: number;
 }
 
+interface CommonTimeRangeRequest {
+  startTime?: number;
+  endTime?: number;
+}
+
 interface CommonSortRequest {
   sortBy: string;
   sortOrder: 'asc' | 'desc';
@@ -37,4 +42,9 @@ interface CommonPageResponse<T> {
   records: T[];
 }
 
-export type { CommonPageRequest, CommonPageResponse, CommonSortRequest };
+export type {
+  CommonPageRequest,
+  CommonPageResponse,
+  CommonSortRequest,
+  CommonTimeRangeRequest,
+};

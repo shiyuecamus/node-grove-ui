@@ -6,7 +6,7 @@ import type {
   DrawerProps,
   DrawerState,
 } from '@vben/common-ui';
-import type { BaseEntity, EntityType } from '@vben/types';
+import type { BaseEntity, EntityType, IdType } from '@vben/types';
 
 /**
  * Available tabs in entity detail panel
@@ -23,7 +23,7 @@ export type EntityDetailTab =
 /**
  * Entity identifier
  */
-export type EntityId = number | string;
+export type EntityId = IdType;
 
 /**
  * Entity detail panel props

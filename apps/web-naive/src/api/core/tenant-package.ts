@@ -1,8 +1,9 @@
 import type {
   CommonPageRequest,
   CommonPageResponse,
+  CommonTimeRangeRequest,
+  IdType,
   TenantPackageInfo,
-  TenantPackageInfoWithId,
 } from '@vben/types';
 
 import { CommonStatus } from '@vben/types';
@@ -11,17 +12,28 @@ import { requestClient } from '../request';
 
 export namespace TenantPackageApi {
   export const base = '/tenant-package';
+  export const list = `${base}/list`;
   export const page = `${base}/page`;
-  export const deleteTenantPackage = (id: number | string) => `${base}/${id}`;
-  export const getById = (id: number | string) => `${base}/detail/${id}`;
+  export const deleteTenantPackage = (id: IdType) => `${base}/${id}`;
+  export const getById = (id: IdType) => `${base}/detail/${id}`;
   export const changeStatus = `${base}/change-status`;
-  export const getMenuIds = (id: number | string) => `${base}/menu-ids/${id}`;
+  export const getMenuIds = (id: IdType) => `${base}/menu-ids/${id}`;
   export const assignMenus = `${base}/assign-menu`;
   /** tenant package page params */
-  export interface TenantPackagePageParams extends CommonPageRequest {
+  export interface TenantPackagePageParams
+    extends CommonPageRequest,
+      CommonTimeRangeRequest {
     name?: string;
     status?: (typeof CommonStatus)[keyof typeof CommonStatus];
   }
+}
+
+/**
+ * fetch tenant package list
+ * @returns Promise with tenant package list response
+ */
+export async function fetchTenantPackageList() {
+  return requestClient.get<TenantPackageInfo[]>(TenantPackageApi.list);
 }
 
 /**
@@ -54,7 +66,7 @@ export async function createTenantPackage(data: TenantPackageInfo) {
  * @param data - Tenant package data
  * @returns Promise with update tenant package response
  */
-export async function updateTenantPackage(data: TenantPackageInfoWithId) {
+export async function updateTenantPackage(data: TenantPackageInfo) {
   return requestClient.put(TenantPackageApi.base, data);
 }
 
@@ -63,7 +75,7 @@ export async function updateTenantPackage(data: TenantPackageInfoWithId) {
  * @param id - Tenant package id
  * @returns Promise with delete tenant package response
  */
-export async function deleteTenantPackage(id: number | string) {
+export async function deleteTenantPackage(id: IdType) {
   return requestClient.delete(TenantPackageApi.deleteTenantPackage(id));
 }
 
@@ -72,7 +84,7 @@ export async function deleteTenantPackage(id: number | string) {
  * @param id - Tenant package id
  * @returns Promise with tenant package response
  */
-export async function getTenantPackageById(id: number | string) {
+export async function getTenantPackageById(id: IdType) {
   return requestClient.get<TenantPackageInfo>(TenantPackageApi.getById(id));
 }
 
@@ -82,7 +94,7 @@ export async function getTenantPackageById(id: number | string) {
  * @param status - Tenant package status
  */
 export async function changeTenantPackageStatus(
-  id: number | string,
+  id: IdType,
   status: (typeof CommonStatus)[keyof typeof CommonStatus],
 ) {
   return requestClient.put(TenantPackageApi.changeStatus, { id, status });
@@ -93,7 +105,7 @@ export async function changeTenantPackageStatus(
  * @param id - Tenant package id
  * @returns Promise with tenant package menu ids response
  */
-export async function getTenantPackageMenuIds(id: number | string) {
+export async function getTenantPackageMenuIds(id: IdType) {
   return requestClient.get<Array<number>>(TenantPackageApi.getMenuIds(id));
 }
 
@@ -103,8 +115,8 @@ export async function getTenantPackageMenuIds(id: number | string) {
  * @param menuIds - Menu ids
  */
 export async function asignTenantPackageMenu(
-  id: number | string,
-  menuIds: Array<number | string>,
+  id: IdType,
+  menuIds: Array<IdType>,
 ) {
   return requestClient.post(TenantPackageApi.assignMenus, { id, menuIds });
 }

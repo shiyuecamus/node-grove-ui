@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import type { Recordable } from '@vben/types';
+
 import type { TableFormInputProps } from './types';
 
 import { nextTick, ref } from 'vue';
@@ -16,13 +18,13 @@ const props = withDefaults(defineProps<TableFormInputProps>(), {
 });
 
 const emit = defineEmits<{
-  submit: [FormOpenType, Record<string, any>, number];
-  'update:modelValue': [Record<string, any>];
+  submit: [FormOpenType, Recordable<any>, number];
+  'update:modelValue': [Recordable<any>];
 }>();
 
 // 表单状态
 const type = ref(FormOpenType.CREATE);
-const formData = ref<Record<string, any>>({});
+const formData = ref<Recordable<any>>({});
 const rowIndex = ref<number>(-1);
 
 // 创建表单
@@ -40,7 +42,7 @@ const [Modal, modalApi] = useVbenModal({
       await nextTick();
       const data = modalApi.getData<{
         index: number;
-        record?: Record<string, any>;
+        record?: Recordable<any>;
         type: FormOpenType;
       }>();
 

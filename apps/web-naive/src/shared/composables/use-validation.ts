@@ -12,7 +12,7 @@ export function createNumberValidation(
   return z
     .number()
     .min(min, {
-      message: $t('common.validation.mustBeGreaterThan0', {
+      message: $t('errors.mustBeGreaterThan0', {
         field: $t(fieldName),
       }),
     })
@@ -29,7 +29,7 @@ export function createRequiredStringValidation(
   return z
     .string()
     .nonempty({
-      message: $t('common.validation.required', {
+      message: $t('errors.required', {
         field: $t(fieldName),
       }),
     })

@@ -6,7 +6,7 @@ import type {
   TransferRenderTargetLabel,
 } from 'naive-ui';
 
-import type { Recordable } from '@vben/types';
+import type { IdType, Recordable } from '@vben/types';
 
 import { h, nextTick, ref } from 'vue';
 
@@ -16,8 +16,7 @@ import { $t } from '@vben/locales';
 
 import { NSpin, NTransfer } from 'naive-ui';
 
-import { getAllMenus } from '#/api/core/menu';
-import { getTenantPackageMenuIds } from '#/api/core/tenant-package';
+import { getAllMenus, getTenantPackageMenuIds } from '#/api/core';
 
 interface IconTransferOption extends TransferOption {
   icon: string;
@@ -26,12 +25,12 @@ interface IconTransferOption extends TransferOption {
 defineOptions({ name: 'AssignMenu' });
 
 const emit = defineEmits<{
-  submit: [number | string, Array<number | string>];
+  submit: [IdType, Array<IdType>];
 }>();
 
 const loading = ref(false);
-const packageId = ref<number | string>();
-const value = ref<Array<number | string>>([]);
+const packageId = ref<IdType>();
+const value = ref<Array<IdType>>([]);
 const options = ref<TransferOption[]>([]);
 const treeData = ref<Recordable<any>[]>([]);
 
@@ -78,7 +77,7 @@ const [Modal, modalApi] = useVbenModal({
       if (isOpen) {
         loading.value = true;
 
-        const { packageId: pkgId } = modalApi.getData<Record<string, any>>();
+        const { packageId: pkgId } = modalApi.getData<Recordable<any>>();
         packageId.value = pkgId;
 
         // Obtener los datos del árbol
@@ -112,9 +111,7 @@ const renderSourceList: TransferRenderSourceList = function ({ onCheck }) {
       iconField: 'meta.icon',
       childrenField: 'children',
       modelValue: value.value,
-      'onUpdate:modelValue': (
-        selectedKeys: Arrayable<number | string> | undefined,
-      ) => {
+      'onUpdate:modelValue': (selectedKeys: Arrayable<IdType> | undefined) => {
         if (selectedKeys) {
           value.value = Array.isArray(selectedKeys)
             ? selectedKeys

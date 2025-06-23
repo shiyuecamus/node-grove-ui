@@ -26,15 +26,19 @@
       "title": "Menu"
     },
     "dept": {
-      "title": "Dept"
+      "title": "Dept",
+      "name": "Name",
+      "status": "Status",
+      "sort": "Sort",
+      "parentId": "Parent Dept"
     },
     "tenant": {
       "title": "Tenant",
       "name": "Name",
       "status": "Status",
       "domain": "Domain",
-      "startTime": "Start Time",
-      "endTime": "End Time"
+      "packageId": "Tenant Package",
+      "packageName": "Tenant Package"
     },
     "tenantPackage": {
       "title": "Tenant Package",

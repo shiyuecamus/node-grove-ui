@@ -26,15 +26,19 @@
       "title": "菜单"
     },
     "dept": {
-      "title": "部门"
+      "title": "部门",
+      "name": "名称",
+      "status": "状态",
+      "sort": "排序",
+      "parentId": "父级部门"
     },
     "tenant": {
       "title": "租户",
       "name": "名称",
       "status": "状态",
       "domain": "域名",
-      "startTime": "开始时间",
-      "endTime": "结束时间"
+      "packageId": "租户套餐",
+      "packageName": "租户套餐"
     },
     "tenantPackage": {
       "title": "租户套餐",

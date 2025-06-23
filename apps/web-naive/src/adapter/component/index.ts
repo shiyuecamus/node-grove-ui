@@ -75,6 +75,9 @@ const NUpload = defineAsyncComponent(() =>
 const NDynamicInput = defineAsyncComponent(() =>
   import('naive-ui/es/dynamic-input').then((res) => res.NDynamicInput),
 );
+const NMention = defineAsyncComponent(() =>
+  import('naive-ui/es/mention').then((res) => res.NMention),
+);
 
 const withDefaultPlaceholder = <T extends Component>(
   component: T,
@@ -123,6 +126,7 @@ export type ComponentType =
   | 'Input'
   | 'InputNumber'
   | 'InputTel'
+  | 'Mention'
   | 'RadioGroup'
   | 'Select'
   | 'Space'
@@ -227,6 +231,7 @@ async function initComponentAdapter() {
         : groupRender;
     },
     Select: withDefaultPlaceholder(NSelect, 'select'),
+    Mention: withDefaultPlaceholder(NMention, 'input'),
     Space: NSpace,
     Switch: NSwitch,
     TimePicker: NTimePicker,

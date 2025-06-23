@@ -1,14 +1,15 @@
 <script lang="ts" setup>
 import type { VbenFormProps } from '@vben/common-ui';
-import type { IdType, Recordable, TenantInfo } from '@vben/types';
+import type { DeptInfo, DeptTree, IdType, Recordable } from '@vben/types';
 
 import type { VxeGridProps } from '#/adapter/vxe-table';
 
 import { confirm, Page, useVbenDrawer } from '@vben/common-ui';
-import { FormOpenType } from '@vben/constants';
+import { DEFAULT_ROOT_TREE_ID, FormOpenType } from '@vben/constants';
 import { useRequestHandler } from '@vben/hooks';
 import { $t } from '@vben/locales';
 import { CommonStatus, EntityType } from '@vben/types';
+import { isEmpty } from '@vben/utils';
 
 import { VbenIcon, VbenTooltip } from '@vben-core/shadcn-ui';
 
@@ -16,14 +17,14 @@ import { NButton, NSwitch, useMessage } from 'naive-ui';
 
 import { useVbenVxeGrid } from '#/adapter/vxe-table';
 import {
-  changeTenantStatus,
-  createTenant,
-  deleteTenant,
-  fetchTenantPage,
-  updateTenant,
+  changeDeptStatus,
+  createDept,
+  deleteDept,
+  fetchDeptLazyLoad,
+  updateDept,
 } from '#/api/core';
 
-import TenantForm from './modules/form.vue';
+import DeptForm from './modules/form.vue';
 import { columns, searchFormSchema } from './modules/schemas';
 
 const { handleRequest } = useRequestHandler();
@@ -40,38 +41,54 @@ const formOptions: VbenFormProps = {
   submitOnEnter: false,
 };
 
-const gridOptions: VxeGridProps<TenantInfo> = {
-  checkboxConfig: {
-    highlight: true,
-    labelField: 'name',
-  },
+const gridOptions: VxeGridProps<DeptTree> = {
   columns,
-  exportConfig: {},
   height: 'auto', // 如果设置为 auto，则必须确保存在父节点且不允许存在相邻元素，否则会出现高度闪动问题
   keepSource: true,
+  pagerConfig: {
+    enabled: false,
+  },
+  rowConfig: {
+    keyField: 'id',
+  },
   proxyConfig: {
     autoLoad: true,
     response: {
-      result: 'records',
-      total: 'total',
-      list: 'records',
+      list: '',
     },
     ajax: {
-      query: async ({ page }, formValues) => {
-        return await fetchTenantPage({
-          page: page.currentPage,
-          pageSize: page.pageSize,
-          ...formValues,
-        });
+      query: (_params, formValues) => {
+        if (
+          isEmpty(formValues.name) &&
+          isEmpty(formValues.status) &&
+          isEmpty(formValues.startTime) &&
+          isEmpty(formValues.endTime)
+        ) {
+          formValues.parentId = DEFAULT_ROOT_TREE_ID;
+        }
+        return fetchDeptLazyLoad(formValues);
       },
     },
   },
   toolbarConfig: {
     custom: true,
-    export: true,
-    import: true,
-    refresh: true,
+    export: false,
+    refresh: { code: 'query' },
     zoom: true,
+  },
+  treeConfig: {
+    parentField: 'parentId',
+    rowField: 'id',
+    transform: false,
+    childrenField: 'children',
+    lazy: true,
+    hasChildField: 'hasChildren',
+    reserve: true,
+    loadMethod: ({ row }: { row: DeptTree }) => {
+      return fetchDeptLazyLoad({
+        parentId: row.id,
+      });
+    },
   },
 };
 
@@ -81,7 +98,7 @@ const [Grid, gridApi] = useVbenVxeGrid({
 });
 
 const [FormDrawer, formDrawerApi] = useVbenDrawer({
-  connectedComponent: TenantForm,
+  connectedComponent: DeptForm,
 });
 
 const handleCreate = () => {
@@ -91,13 +108,13 @@ const handleCreate = () => {
     })
     .setState({
       title: $t('common.createWithName', {
-        name: $t('page.system.tenant.title'),
+        name: $t('page.system.dept.title'),
       }),
     })
     .open();
 };
 
-const handleEdit = (row: TenantInfo) => {
+const handleEdit = (row: DeptInfo) => {
   formDrawerApi
     .setData({
       type: FormOpenType.EDIT,
@@ -111,10 +128,10 @@ const handleEdit = (row: TenantInfo) => {
     .open();
 };
 
-const handleDelete = async (row: TenantInfo) => {
+const handleDelete = async (row: DeptInfo) => {
   confirm({
     content: $t('common.action.deleteConfirm', {
-      entityType: $t(`entity.${EntityType.TENANT.toLowerCase()}`),
+      entityType: $t(`entity.${EntityType.DEPT.toLowerCase()}`),
       name: row.name,
     }),
     icon: 'warning',
@@ -122,7 +139,7 @@ const handleDelete = async (row: TenantInfo) => {
   })
     .then(async () => {
       await handleRequest(
-        () => deleteTenant(row.id),
+        () => deleteDept(row.id),
         (_) => {
           message.success(
             $t('common.action.deleteSuccessWithName', { name: row.name }),
@@ -134,13 +151,13 @@ const handleDelete = async (row: TenantInfo) => {
     .catch(() => {});
 };
 
-const toggleStatus = async (row: TenantInfo) => {
+const toggleStatus = async (row: DeptInfo) => {
   const status =
     row.status === CommonStatus.ENABLED
       ? CommonStatus.DISABLED
       : CommonStatus.ENABLED;
   await handleRequest(
-    () => changeTenantStatus(row.id, status),
+    () => changeDeptStatus(row.id, status),
     async (_) => {
       message.success($t('common.action.changeStatusSuccess'));
       await gridApi.query();
@@ -155,17 +172,17 @@ const handleFormSubmit = async (
 ) => {
   await (type === FormOpenType.CREATE
     ? handleRequest(
-        () => createTenant(values as TenantInfo),
+        () => createDept(values as DeptInfo),
         (_) => {
           message.success($t('common.action.createSuccess'));
         },
       )
     : handleRequest(
         () =>
-          updateTenant({
+          updateDept({
             id,
             ...values,
-          } as TenantInfo),
+          } as DeptInfo),
         (_) => {
           message.success($t('common.action.updateSuccess'));
         },
@@ -186,7 +203,7 @@ const handleFormSubmit = async (
       <template #toolbar-tools>
         <NButton class="mr-2" type="primary" @click="handleCreate">
           <span>{{
-            `${$t('common.createWithName', { name: $t('page.system.tenant.title') })}`
+            `${$t('common.createWithName', { name: $t('page.system.dept.title') })}`
           }}</span>
         </NButton>
       </template>

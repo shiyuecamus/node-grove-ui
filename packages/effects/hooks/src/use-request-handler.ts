@@ -1,4 +1,4 @@
-export function useMessageHandler() {
+export function useRequestHandler() {
   const handleRequest = async <T>(
     requestFn: () => Promise<T>,
     successCallback?: (res: T) => void,

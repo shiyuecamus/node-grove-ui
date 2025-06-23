@@ -1,4 +1,6 @@
 <script lang="ts" setup>
+import type { Recordable } from '@vben/types';
+
 import type { TableInputProps } from './types';
 
 import { computed, nextTick, ref, watch } from 'vue';
@@ -27,7 +29,7 @@ const props = withDefaults(defineProps<TableInputProps<any>>(), {
 });
 
 // Model value binding
-const modelValue = defineModel<Record<string, any>[]>({
+const modelValue = defineModel<Recordable<any>[]>({
   default: () => [],
 });
 

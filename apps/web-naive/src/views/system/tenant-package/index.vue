@@ -1,12 +1,12 @@
 <script lang="ts" setup>
 import type { VbenFormProps } from '@vben/common-ui';
-import type { TenantPackageInfo, TenantPackageInfoWithId } from '@vben/types';
+import type { IdType, Recordable, TenantPackageInfo } from '@vben/types';
 
 import type { VxeGridListeners, VxeGridProps } from '#/adapter/vxe-table';
 
 import { confirm, Page, useVbenDrawer, useVbenModal } from '@vben/common-ui';
 import { FormOpenType } from '@vben/constants';
-import { useMessageHandler } from '@vben/hooks';
+import { useRequestHandler } from '@vben/hooks';
 import { $t } from '@vben/locales';
 import { CommonStatus, EntityType } from '@vben/types';
 
@@ -22,25 +22,16 @@ import {
   deleteTenantPackage,
   fetchTenantPackagePage,
   updateTenantPackage,
-} from '#/api/core/tenant-package';
+} from '#/api/core';
 import { useEntityDetailDrawer } from '#/shared/components/entity/detail';
 
 import AssignMenu from './modules/assign-menu.vue';
 import TenantPackageForm from './modules/form.vue';
 import { columns, searchFormSchema } from './modules/schemas';
 
-const { handleRequest } = useMessageHandler();
+const { handleRequest } = useRequestHandler();
 
 const message = useMessage();
-
-interface RowType {
-  id: number | string;
-  createdAt: string;
-  name: string;
-  country: string;
-  state: string;
-  city: string;
-}
 
 const formOptions: VbenFormProps = {
   // 默认展开
@@ -52,7 +43,7 @@ const formOptions: VbenFormProps = {
   submitOnEnter: false,
 };
 
-const gridOptions: VxeGridProps<RowType> = {
+const gridOptions: VxeGridProps<TenantPackageInfo> = {
   checkboxConfig: {
     highlight: true,
     labelField: 'name',
@@ -93,7 +84,7 @@ const gridOptions: VxeGridProps<RowType> = {
   },
 };
 
-const gridEvents: VxeGridListeners<RowType> = {
+const gridEvents: VxeGridListeners<TenantPackageInfo> = {
   cellClick: ({ row }) => {
     entityDetailDrawerApi.setEntity(EntityType.TENANT_PACKAGE, row.id).open();
   },
@@ -120,7 +111,7 @@ const [EntityDetailDrawer, entityDetailDrawerApi] = useEntityDetailDrawer({
   entityType: EntityType.TENANT_PACKAGE,
 });
 
-const handleDelete = async (row: RowType) => {
+const handleDelete = async (row: TenantPackageInfo) => {
   confirm({
     content: $t('common.action.deleteConfirm', {
       entityType: $t(`entity.${EntityType.TENANT_PACKAGE.toLowerCase()}`),
@@ -137,18 +128,13 @@ const handleDelete = async (row: RowType) => {
             $t('common.action.deleteSuccessWithName', { name: row.name }),
           );
         },
-        (_: any) => {
-          message.error(
-            $t('common.action.deleteFailWithName', { name: row.name }),
-          );
-        },
       );
       await gridApi.query();
     })
     .catch(() => {});
 };
 
-const handleAssignMenu = (record: Record<string, any>) => {
+const handleAssignMenu = (record: Recordable<any>) => {
   assignMenuModalApi
     .setData({
       packageId: record.id,
@@ -157,8 +143,8 @@ const handleAssignMenu = (record: Record<string, any>) => {
 };
 
 const handleAssignMenuSubmit = async (
-  packageId: number | string,
-  menuIds: Array<number | string>,
+  packageId: IdType,
+  menuIds: Array<IdType>,
 ) => {
   await handleRequest(
     () => asignTenantPackageMenu(packageId, menuIds),
@@ -181,7 +167,7 @@ const handleCreate = () => {
     .open();
 };
 
-const handleEdit = (row: RowType) => {
+const handleEdit = (row: TenantPackageInfo) => {
   formDrawerApi
     .setData({
       type: FormOpenType.EDIT,
@@ -195,28 +181,24 @@ const handleEdit = (row: RowType) => {
     .open();
 };
 
-const handleUpdateStatus = async (row: RowType, value: boolean) => {
+const toggleStatus = async (row: TenantPackageInfo) => {
+  const status =
+    row.status === CommonStatus.ENABLED
+      ? CommonStatus.DISABLED
+      : CommonStatus.ENABLED;
   await handleRequest(
-    async () => {
-      await changeTenantPackageStatus(
-        row.id,
-        value ? CommonStatus.ENABLED : CommonStatus.DISABLED,
-      );
+    () => changeTenantPackageStatus(row.id, status),
+    async (_) => {
+      message.success($t('common.action.changeStatusSuccess'));
       await gridApi.query();
-    },
-    (_) => {
-      message.success($t('common.action.updateSuccess'));
-    },
-    (_: any) => {
-      message.error($t('common.action.updateFail'));
     },
   );
 };
 
 const handleFormSubmit = async (
   type: FormOpenType,
-  id: number | string | undefined,
-  values: Record<string, any>,
+  id: IdType | undefined,
+  values: Recordable<any>,
 ) => {
   await (type === FormOpenType.CREATE
     ? handleRequest(
@@ -224,17 +206,15 @@ const handleFormSubmit = async (
         (_) => {
           message.success($t('common.action.createSuccess'));
         },
-        (_: any) => {
-          message.error($t('common.action.createFail'));
-        },
       )
     : handleRequest(
-        () => updateTenantPackage({ id, ...values } as TenantPackageInfoWithId),
+        () =>
+          updateTenantPackage({
+            id,
+            ...values,
+          } as TenantPackageInfo),
         (_) => {
           message.success($t('common.action.updateSuccess'));
-        },
-        (_: any) => {
-          message.error($t('common.action.updateFail'));
         },
       ));
   await gridApi.query();
@@ -252,22 +232,6 @@ const handleFormSubmit = async (
         </NButton>
       </template>
       <template #action="{ row }">
-        <VbenTooltip trigger="hover" side="top">
-          <template #trigger>
-            <NButton
-              circle
-              size="small"
-              tertiary
-              type="error"
-              @click.stop="handleDelete(row)"
-            >
-              <template #icon>
-                <VbenIcon icon="lucide:trash-2" />
-              </template>
-            </NButton>
-          </template>
-          {{ $t('common.delete') }}
-        </VbenTooltip>
         <VbenTooltip trigger="hover" side="top">
           <template #trigger>
             <NButton
@@ -300,11 +264,27 @@ const handleFormSubmit = async (
           </template>
           {{ $t('common.asignMenu') }}
         </VbenTooltip>
+        <VbenTooltip trigger="hover" side="top">
+          <template #trigger>
+            <NButton
+              circle
+              size="small"
+              tertiary
+              type="error"
+              @click.stop="handleDelete(row)"
+            >
+              <template #icon>
+                <VbenIcon icon="lucide:trash-2" />
+              </template>
+            </NButton>
+          </template>
+          {{ $t('common.delete') }}
+        </VbenTooltip>
       </template>
       <template #status="{ row }">
         <NSwitch
           :value="row.status === CommonStatus.ENABLED"
-          @update:value="handleUpdateStatus(row, $event)"
+          @update:value="toggleStatus(row)"
           @click.stop
         />
       </template>

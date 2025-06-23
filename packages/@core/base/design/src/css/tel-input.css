@@ -13,6 +13,12 @@
     border-radius: var(--radius);
   }
 
+  .vti__input {
+    height: 100%;
+    border: none !important;
+    border-radius: var(--radius) !important;
+  }
+
   .vue-tel-input:hover {
     outline: none;
     border: 1px solid hsl(var(--primary));
@@ -22,5 +28,25 @@
     outline: none;
     border: 1px solid hsl(var(--primary));
     box-shadow: none;
+  }
+
+  .vti__dropdown:hover {
+    background-color: hsl(var(--background));
+  }
+
+  .vti__dropdown-list {
+    background-color: hsl(var(--background));
+  }
+
+  .vti__dropdown-item {
+    color: hsl(var(--foreground) / 80%);
+  }
+
+  .vti__dropdown-item.highlighted {
+    background-color: hsl(var(--accent));
+  }
+
+  .vti__dropdown.open {
+    background-color: hsl(var(--background));
   }
 }

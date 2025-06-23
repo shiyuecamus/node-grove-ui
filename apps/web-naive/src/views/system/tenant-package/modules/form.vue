@@ -1,11 +1,14 @@
 <script lang="ts" setup>
+import type { FormOpenData } from '@vben/constants';
+import type { IdType, Recordable } from '@vben/types';
+
 import { nextTick, ref } from 'vue';
 
 import { useVbenDrawer } from '@vben/common-ui';
 import { FormOpenType } from '@vben/constants';
-import { useMessageHandler } from '@vben/hooks';
+import { useRequestHandler } from '@vben/hooks';
 
-import { getTenantPackageById } from '#/api/core/tenant-package';
+import { getTenantPackageById } from '#/api/core';
 import { useStepForm } from '#/shared/components/common/step-form';
 
 import { forms, stepConfigs } from './schemas';
@@ -13,13 +16,13 @@ import { forms, stepConfigs } from './schemas';
 defineOptions({ name: 'TenantPackageForm' });
 
 const emit = defineEmits<{
-  submit: [FormOpenType, number | string | undefined, Record<string, any>];
+  submit: [FormOpenType, IdType | undefined, Recordable<any>];
 }>();
 
-const { handleRequest } = useMessageHandler();
+const { handleRequest } = useRequestHandler();
 
 const type = ref(FormOpenType.CREATE);
-const recordId = ref<number | string | undefined>(undefined);
+const recordId = ref<IdType | undefined>(undefined);
 const loading = ref(false);
 
 // 初始化表单
@@ -45,14 +48,16 @@ const [Drawer, drawerApi] = useVbenDrawer({
   onOpenChange: async (isOpen: boolean) => {
     if (isOpen) {
       await nextTick();
-      const { type: t, id } = drawerApi.getData<Record<string, any>>();
+
+      const { type: t, id } = drawerApi.getData<FormOpenData>();
+
       type.value = t;
       recordId.value = id;
-      stepFormApi.reset();
+
       if (t === FormOpenType.EDIT) {
         loading.value = true;
         await handleRequest(
-          () => getTenantPackageById(recordId.value as number),
+          () => getTenantPackageById(recordId.value as IdType),
           (data) => {
             stepFormApi.setValues(data);
             loading.value = false;

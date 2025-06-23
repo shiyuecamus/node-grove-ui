@@ -1,19 +1,19 @@
 <script lang="ts" setup>
 import type { FormOpenData } from '@vben/constants';
-import type { IdType, Recordable } from '@vben/types';
+import type { DeptTree, IdType, Recordable } from '@vben/types';
 
-import { nextTick, ref } from 'vue';
+import { nextTick, onMounted, ref } from 'vue';
 
 import { useVbenDrawer } from '@vben/common-ui';
-import { FormOpenType } from '@vben/constants';
+import { DEFAULT_ROOT_TREE_ID, FormOpenType } from '@vben/constants';
 import { useRequestHandler } from '@vben/hooks';
 
 import { useVbenForm } from '#/adapter/form';
-import { getTenantById } from '#/api/core';
+import { fetchDeptLazyLoad, getDeptById } from '#/api/core';
 
-import { formSchema } from './schemas';
+import { useFormSchema } from './schemas/form';
 
-defineOptions({ name: 'TenantForm' });
+defineOptions({ name: 'DeptForm' });
 
 const emit = defineEmits<{
   submit: [type: FormOpenType, id: IdType | undefined, values: Recordable<any>];
@@ -24,6 +24,13 @@ const { handleRequest } = useRequestHandler();
 const type = ref(FormOpenType.CREATE);
 const recordId = ref<IdType | undefined>(undefined);
 const loading = ref(false);
+const rootTree = ref<DeptTree[]>([]);
+
+onMounted(async () => {
+  rootTree.value = await fetchDeptLazyLoad({
+    parentId: DEFAULT_ROOT_TREE_ID,
+  });
+});
 
 // 初始化表单
 const [Form, formApi] = useVbenForm({
@@ -31,7 +38,7 @@ const [Form, formApi] = useVbenForm({
     emit('submit', type.value, recordId.value, record);
     modalApi.close();
   },
-  schema: formSchema,
+  schema: useFormSchema(rootTree.value),
   commonConfig: {
     labelClass: 'text-[14px] w-1/6',
   },
@@ -60,7 +67,7 @@ const [Modal, modalApi] = useVbenDrawer({
       if (t === FormOpenType.EDIT) {
         loading.value = true;
         await handleRequest(
-          () => getTenantById(recordId.value as IdType),
+          () => getDeptById(recordId.value as IdType),
           (data) => {
             formApi.setValues(data);
             loading.value = false;

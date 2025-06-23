@@ -1,5 +1,7 @@
 import { TagColor } from './color';
 
+export type IdType = number | string;
+
 export const CommonStatus = {
   /**
    * 禁用
@@ -91,18 +93,18 @@ export enum EntityType {
 }
 
 interface BaseEntity {
-  id: number | string;
+  id: IdType;
   createdAt?: string;
   updatedAt?: string;
   [key: string]: any;
 }
 
 interface TenantModel {
-  tenantId?: number | string;
+  tenantId?: IdType;
 }
 
 interface DeptModel extends TenantModel {
-  deptId?: number | string;
+  deptId?: IdType;
 }
 
 interface StatusInfo {

@@ -10,6 +10,7 @@ export const basicInfoSchema: VbenFormProps = {
     {
       component: 'Input',
       componentProps: {
+        clearable: true,
         placeholder: $t('ui.placeholder.inputWithName', {
           name: $t('page.system.tenantPackage.name'),
         }),
@@ -23,6 +24,7 @@ export const basicInfoSchema: VbenFormProps = {
       component: 'Input',
       componentProps: {
         type: 'textarea',
+        clearable: true,
         maxlength: 255,
         showCount: true,
         autosize: {

@@ -1,6 +1,8 @@
 import type {
   CommonPageRequest,
   CommonPageResponse,
+  CommonTimeRangeRequest,
+  IdType,
   TenantInfo,
 } from '@vben/types';
 
@@ -12,12 +14,14 @@ export namespace TenantApi {
   export const base = '/tenant';
   export const page = `${base}/page`;
   export const getByDomain = `${base}/by-domain`;
-  export const deleteTenant = (id: number | string) => `${base}/${id}`;
-  export const getById = (id: number | string) => `${base}/detail/${id}`;
+  export const deleteTenant = (id: IdType) => `${base}/${id}`;
+  export const getById = (id: IdType) => `${base}/detail/${id}`;
   export const changeStatus = `${base}/change-status`;
 
   /** tenant page params */
-  export interface TenantPageParams extends CommonPageRequest {
+  export interface TenantPageParams
+    extends CommonPageRequest,
+      CommonTimeRangeRequest {
     name?: string;
     status?: (typeof CommonStatus)[keyof typeof CommonStatus];
   }
@@ -46,12 +50,39 @@ export async function fetchTenantPage(params: TenantApi.TenantPageParams) {
 }
 
 /**
+ * create tenant
+ * @param data - Tenant data
+ * @returns Promise with create tenant response
+ */
+export async function createTenant(data: TenantInfo) {
+  return requestClient.post(TenantApi.base, data);
+}
+
+/**
+ * update tenant
+ * @param data - Tenant data
+ * @returns Promise with update tenant response
+ */
+export async function updateTenant(data: TenantInfo) {
+  return requestClient.put(TenantApi.base, data);
+}
+
+/**
  * delete tenant
  * @param id - Tenant ID
  * @returns Promise with delete response
  */
-export async function deleteTenant(id: number | string) {
+export async function deleteTenant(id: IdType) {
   return requestClient.delete(TenantApi.deleteTenant(id));
+}
+
+/**
+ * get tenant by id
+ * @param id - Tenant ID
+ * @returns Promise with tenant response
+ */
+export async function getTenantById(id: IdType) {
+  return requestClient.get<TenantInfo>(TenantApi.getById(id));
 }
 
 /**
@@ -61,10 +92,10 @@ export async function deleteTenant(id: number | string) {
  * @returns Promise with change status response
  */
 export async function changeTenantStatus(
-  id: number | string,
+  id: IdType,
   status: (typeof CommonStatus)[keyof typeof CommonStatus],
 ) {
-  return requestClient.post(TenantApi.changeStatus, {
+  return requestClient.put(TenantApi.changeStatus, {
     id,
     status,
   });
