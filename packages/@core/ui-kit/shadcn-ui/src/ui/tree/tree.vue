@@ -305,6 +305,7 @@ defineExpose({
           :checked="isSelected && !isNodeDisabled(item)"
           :disabled="isNodeDisabled(item)"
           :indeterminate="isIndeterminate && !isNodeDisabled(item)"
+          class="border-[hsl(var(--secondary-foreground))]"
           @click="
             (event: MouseEvent) => {
               if (isNodeDisabled(item)) {
