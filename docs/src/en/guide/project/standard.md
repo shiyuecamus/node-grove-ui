@@ -156,6 +156,7 @@ The most effective solution is to perform Lint checks locally before committing.
 The project defines corresponding hooks inside `lefthook.yml`:
 
 - `pre-commit`: Runs before commit, used for code formatting and checking
+
   - `code-workspace`: Updates VSCode workspace configuration
   - `lint-md`: Formats Markdown files
   - `lint-vue`: Formats and checks Vue files
@@ -165,6 +166,7 @@ The project defines corresponding hooks inside `lefthook.yml`:
   - `lint-json`: Formats other JSON files
 
 - `post-merge`: Runs after merge, used for automatic dependency installation
+
   - `install`: Runs `pnpm install` to install new dependencies
 
 - `commit-msg`: Runs during commit, used for checking commit message format

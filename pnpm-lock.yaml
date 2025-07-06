@@ -869,7 +869,7 @@ importers:
         version: 4.5.1(vue@3.5.17(typescript@5.8.3))
       vue-tel-input:
         specifier: 'catalog:'
-        version: 9.3.0(libphonenumber-js@1.12.8)(vue@3.5.13(typescript@5.8.3))
+        version: 9.3.0(libphonenumber-js@1.12.8)(vue@3.5.17(typescript@5.8.3))
     devDependencies:
       '@types/vue-tel-input':
         specifier: 'catalog:'
@@ -6143,10 +6143,6 @@ packages:
   country-state-city@3.2.1:
     resolution: {integrity: sha512-kxbanqMc6izjhc/EHkGPCTabSPZ2G6eG4/97akAYHJUN4stzzFEvQPZoF8oXDQ+10gM/O/yUmISCR1ZVxyb6EA==}
 
-  cp-file@10.0.0:
-    resolution: {integrity: sha512-vy2Vi1r2epK5WqxOLnskeKeZkdZvTKfFZQCplE3XWsP+SUJyd5XAUFC9lFgTjjXJF2GMne/UML14iEmkAaDfFg==}
-    engines: {node: '>=14.16'}
-
   crc-32@1.2.2:
     resolution: {integrity: sha512-ROmzCKrTnOwybPcJApAA6WBWij23HVfGVNKqqrZpuyZOHqK2CwHSvpGuyt/UNNvaIjEd8X5IFGp4Mh+Ie1IHJQ==}
     engines: {node: '>=0.8'}
@@ -8186,6 +8182,41 @@ packages:
     resolution: {integrity: sha512-l9RhSBp1SHqLCjSGWoeeVWqKcTBOMW8v2CCYrUt5eb6sik7AjT6+Neqf3sClsXH7SjELjj43yjmg6loqPtfDgg==}
     cpu: [x64]
     os: [darwin]
+
+  lefthook-freebsd-arm64@1.11.14:
+    resolution: {integrity: sha512-oSdJKGGMohktFXC6faZCUt5afyHpDwWGIWAkHGgOXUVD/LiZDEn6U/8cQmKm1UAfBySuPTtfir0VeM04y6188g==}
+    cpu: [arm64]
+    os: [freebsd]
+
+  lefthook-freebsd-x64@1.11.14:
+    resolution: {integrity: sha512-gZdMWZwOtIhIPK3GPYac7JhXrxF188gkw65i6O7CedS/meDlK2vjBv5BUVLeD/satv4+jibEdV0h4Qqu/xIh2A==}
+    cpu: [x64]
+    os: [freebsd]
+
+  lefthook-linux-arm64@1.11.14:
+    resolution: {integrity: sha512-sZmqbTsGQFQw7gbfi9eIHFOxfcs66QfZYLRMh1DktODhyhRXB8RtI6KMeKCtPEGLhbK55/I4TprC8Qvj86UBgw==}
+    cpu: [arm64]
+    os: [linux]
+
+  lefthook-linux-x64@1.11.14:
+    resolution: {integrity: sha512-c+to1BRzFe419SNXAR6YpCBP8EVWxvUxlON3Z+efzmrHhdlhm7LvEoJcN4RQE4Gc2rJQJNe87OjsEZQkc4uQLg==}
+    cpu: [x64]
+    os: [linux]
+
+  lefthook-openbsd-arm64@1.11.14:
+    resolution: {integrity: sha512-fivG3D9G4ASRCTf3ecfz1WdnrHCW9pezaI8v1NVve8t6B2q0d0yeaje5dfhoAsAvwiFPRaMzka1Qaoyu8O8G9Q==}
+    cpu: [arm64]
+    os: [openbsd]
+
+  lefthook-openbsd-x64@1.11.14:
+    resolution: {integrity: sha512-vikmG0jf7JVKR3be6Wk3l1jtEdedEqk1BTdsaHFX1bj0qk0azcqlZ819Wt/IoyIYDzQCHKowZ6DuXsRjT+RXWA==}
+    cpu: [x64]
+    os: [openbsd]
+
+  lefthook-windows-arm64@1.11.14:
+    resolution: {integrity: sha512-5PoAJ9QKaqxJn1NWrhrhXpAROpl/dT7bGTo7VMj2ATO1cpRatbn6p+ssvc3tgeriFThowFb1D11Fg6OlFLi6UQ==}
+    cpu: [arm64]
+    os: [win32]
 
   lefthook-windows-x64@1.11.14:
     resolution: {integrity: sha512-kBeOPR0Aj5hQGxoBBntgz5/e/xaH5Vnzlq9lJjHW8sf23qu/JVUGg6ceCoicyVWJi+ZOBliTa8KzwCu+mgyJjw==}
@@ -11313,7 +11344,7 @@ packages:
     resolution: {integrity: sha512-8PgAFxO5npztMruL1O0NZxPDJScfc9Qx2mDERErRKS7XQ1l/MSk8rfi0XgPbNdOBiocdweDnikNdo3xSJrQodA==}
     peerDependencies:
       libphonenumber-js: ^1.10.51
-      vue: ^3.5.13
+      vue: ^3.5.17
 
   vue-tippy@6.7.1:
     resolution: {integrity: sha512-gdHbBV5/Vc8gH87hQHLA7TN1K4BlLco3MAPrTb70ZYGXxx+55rAU4a4mt0fIoP+gB3etu1khUZ6c29Br1n0CiA==}
@@ -14839,7 +14870,7 @@ snapshots:
 
   '@types/vue-tel-input@2.1.7(typescript@5.8.3)':
     dependencies:
-      vue: 3.5.13(typescript@5.8.3)
+      vue: 3.5.17(typescript@5.8.3)
     transitivePeerDependencies:
       - typescript
 
@@ -16433,12 +16464,6 @@ snapshots:
       typescript: 5.8.3
 
   country-state-city@3.2.1: {}
-
-  cp-file@10.0.0:
-    dependencies:
-      graceful-fs: 4.2.11
-      nested-error-stacks: 2.1.1
-      p-event: 5.0.1
 
   crc-32@1.2.2: {}
 
@@ -18659,6 +18684,27 @@ snapshots:
   lefthook-darwin-x64@1.11.14:
     optional: true
 
+  lefthook-freebsd-arm64@1.11.14:
+    optional: true
+
+  lefthook-freebsd-x64@1.11.14:
+    optional: true
+
+  lefthook-linux-arm64@1.11.14:
+    optional: true
+
+  lefthook-linux-x64@1.11.14:
+    optional: true
+
+  lefthook-openbsd-arm64@1.11.14:
+    optional: true
+
+  lefthook-openbsd-x64@1.11.14:
+    optional: true
+
+  lefthook-windows-arm64@1.11.14:
+    optional: true
+
   lefthook-windows-x64@1.11.14:
     optional: true
 
@@ -18666,6 +18712,13 @@ snapshots:
     optionalDependencies:
       lefthook-darwin-arm64: 1.11.14
       lefthook-darwin-x64: 1.11.14
+      lefthook-freebsd-arm64: 1.11.14
+      lefthook-freebsd-x64: 1.11.14
+      lefthook-linux-arm64: 1.11.14
+      lefthook-linux-x64: 1.11.14
+      lefthook-openbsd-arm64: 1.11.14
+      lefthook-openbsd-x64: 1.11.14
+      lefthook-windows-arm64: 1.11.14
       lefthook-windows-x64: 1.11.14
 
   less@4.3.0:
@@ -22140,10 +22193,10 @@ snapshots:
       '@vue/devtools-api': 6.6.4
       vue: 3.5.17(typescript@5.8.3)
 
-  vue-tel-input@9.3.0(libphonenumber-js@1.12.8)(vue@3.5.13(typescript@5.8.3)):
+  vue-tel-input@9.3.0(libphonenumber-js@1.12.8)(vue@3.5.17(typescript@5.8.3)):
     dependencies:
       libphonenumber-js: 1.12.8
-      vue: 3.5.13(typescript@5.8.3)
+      vue: 3.5.17(typescript@5.8.3)
 
   vue-tippy@6.7.1(vue@3.5.17(typescript@5.8.3)):
     dependencies:

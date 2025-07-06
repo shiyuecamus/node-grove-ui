@@ -8,12 +8,7 @@ import type { Component } from 'vue';
 import type { BaseFormComponentType } from '@vben/common-ui';
 import type { Recordable } from '@vben/types';
 
-import {
-  defineAsyncComponent,
-  defineComponent,
-  h,
-  ref,
-} from 'vue';
+import { defineAsyncComponent, defineComponent, h, ref } from 'vue';
 import { VueTelInput } from 'vue-tel-input';
 import 'vue-tel-input/vue-tel-input.css';
 
