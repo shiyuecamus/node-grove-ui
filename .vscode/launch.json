@@ -1,42 +1,68 @@
 {
-  "$schema": "https://json.schemastore.org/launchsettings.json",
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
   "version": "0.2.0",
   "configurations": [
     {
-      "type": "chrome",
-      "name": "vben admin playground dev",
+      "command": "npm run dev:naive",
+      "name": "naive dev",
       "request": "launch",
-      "url": "http://localhost:5555",
-      "env": { "NODE_ENV": "development" },
-      "sourceMaps": true,
-      "webRoot": "${workspaceFolder}/playground"
+      "type": "node-terminal"
     },
     {
-      "type": "chrome",
-      "name": "vben admin antd dev",
+      "command": "npm run dev:antd",
+      "name": "antd dev",
       "request": "launch",
-      "url": "http://localhost:5666",
-      "env": { "NODE_ENV": "development" },
-      "sourceMaps": true,
-      "webRoot": "${workspaceFolder}/apps/web-antd"
+      "type": "node-terminal"
     },
     {
-      "type": "chrome",
-      "name": "vben admin ele dev",
+      "command": "npm run dev:ele",
+      "name": "ele dev",
       "request": "launch",
-      "url": "http://localhost:5777",
-      "env": { "NODE_ENV": "development" },
-      "sourceMaps": true,
-      "webRoot": "${workspaceFolder}/apps/web-ele"
+      "type": "node-terminal"
     },
     {
-      "type": "chrome",
-      "name": "vben admin naive dev",
+      "command": "npm run dev:play",
+      "name": "play dev",
       "request": "launch",
-      "url": "http://localhost:5888",
-      "env": { "NODE_ENV": "development" },
-      "sourceMaps": true,
-      "webRoot": "${workspaceFolder}/apps/web-naive"
+      "type": "node-terminal"
+    },
+    {
+      "command": "npm run dev:docs",
+      "name": "docs dev",
+      "request": "launch",
+      "type": "node-terminal"
+    },
+    {
+      "command": "npm run build:naive",
+      "name": "build naive",
+      "request": "launch",
+      "type": "node-terminal"
+    },
+    {
+      "command": "npm run build:antd",
+      "name": "build antd",
+      "request": "launch",
+      "type": "node-terminal"
+    },
+    {
+      "command": "npm run build:ele",
+      "name": "build ele",
+      "request": "launch",
+      "type": "node-terminal"
+    },
+    {
+      "command": "npm run build:play",
+      "name": "build play",
+      "request": "launch",
+      "type": "node-terminal"
+    },
+    {
+      "command": "npm run build:docs",
+      "name": "build docs",
+      "request": "launch",
+      "type": "node-terminal"
     }
   ]
 }
