@@ -20,12 +20,24 @@ export function useAppConfig(
     VITE_GLOB_API_VERSION,
     VITE_GLOB_CLIENT_ID,
     VITE_GLOB_CLIENT_SECRET,
+    VITE_GLOB_AUTH_DINGDING_CORP_ID,
+    VITE_GLOB_AUTH_DINGDING_CLIENT_ID,
   } = config;
 
-  return {
+  const applicationConfig: ApplicationConfig = {
     apiURL: VITE_GLOB_API_URL,
     apiVersion: VITE_GLOB_API_VERSION,
     clientId: VITE_GLOB_CLIENT_ID,
     clientSecret: VITE_GLOB_CLIENT_SECRET,
+    auth: {},
   };
+
+  if (VITE_GLOB_AUTH_DINGDING_CORP_ID && VITE_GLOB_AUTH_DINGDING_CLIENT_ID) {
+    applicationConfig.auth.dingding = {
+      clientId: VITE_GLOB_AUTH_DINGDING_CLIENT_ID,
+      corpId: VITE_GLOB_AUTH_DINGDING_CORP_ID,
+    };
+  }
+
+  return applicationConfig;
 }

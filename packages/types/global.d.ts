@@ -12,6 +12,15 @@ export interface VbenAdminProAppConfigRaw {
   VITE_GLOB_API_VERSION: string;
   VITE_GLOB_CLIENT_ID: string;
   VITE_GLOB_CLIENT_SECRET: string;
+  VITE_GLOB_AUTH_DINGDING_CLIENT_ID: string;
+  VITE_GLOB_AUTH_DINGDING_CORP_ID: string;
+}
+
+interface AuthConfig {
+  dingding?: {
+    clientId: string;
+    corpId: string;
+  };
 }
 
 export interface ApplicationConfig {
@@ -19,6 +28,7 @@ export interface ApplicationConfig {
   apiVersion: string;
   clientId: string;
   clientSecret: string;
+  auth: AuthConfig;
 }
 
 declare global {
